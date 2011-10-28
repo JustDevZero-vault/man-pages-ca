@@ -59,10 +59,8 @@ correctly.
 
 * WARNING
 
-The following files have not been translated:
-	- koi8-r.7
-	- ALL
-
+The following groups have not been translated:
+    - man2,man3,man4,man5,man6,man7,man8
 * COPYRIGHTS
 
 These man pages come under various copyrights.
