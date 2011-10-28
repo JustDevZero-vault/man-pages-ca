@@ -1,0 +1,80 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH RMDIR 1 "Novembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+rmdir \- esborra directoris buits
+.SH SINOPSI
+.BI "rmdir [" opcions "] " directori...
+.sp
+Opcions de POSIX:
+.B "[\-p]"
+.sp
+Opcions de GNU (en la forma més curta):
+.B [\-p]
+.B [\-\-ignore\-fail\-on\-senar\-empty]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B rmdir
+esborra directoris buits.
+.PP
+Si un argument
+.I directori
+no es refereix a un directori existent i buit, és un error.
+.SH "OPCIONS DE POSIX"
+.TP
+.B "\-p"
+Si
+.I directori
+inclou més d'un component en el camí, ho esborra, després lleva
+l'últim component i esborra el directori resultant, etc., fins que
+tots els components hagin estat eliminats. Així, `rmdir \-p a/b/c' és
+equivalent a `rmdir a/b/c; rmdir a/b; rmdir a'.
+.SH OPCIONS DE GNU
+.TP
+.B "\-\-ignore\-fail\-on\-senar\-empty"
+Normalment,
+.B rmdir
+refusarà elminar un directori que no està buit. Aquesta opció fa que
+.B rmdir
+ignori la fallada per eliminar el directori, si aquesta fallada es deu
+al fet que el directori no està buit.
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-p, \-\-parents"
+Com s'acaba d'explicar a dalt.
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_COLLATE, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2.
+.SH "EXEMPLE D'UTILITZACIÓ"
+L'ordre `\fIrmdir fuu\fP' esborrarà el directori \fIfuu\fP si està
+buit. Per esborrar un directori no buit, juntament amb tot el que tingui
+sota, empri `\fIrm -r fuu\fP'.
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B rmdir
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

@@ -1,0 +1,227 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH DD 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+dd \- converteix i copia un fitxer
+.SH SINOPSI
+.B dd
+.B [\-\-help] [\-\-version]
+.BI [if= fitxer ]
+.BI [of= fitxer ]
+.BI [ibs= bytes ]
+.BI [obs= bytes ]
+.BI [bs= bytes ]
+.BI [cbs= bytes ]
+.BI [skip= blocs ]
+.BI [seek= blocs ]
+.BI [count= blocs ]
+.B "[conv={ascii, ebcdic, ibm, block, unblock, lcase, ucase, swab, noerror, notrunc, sync}]"
+.SH DESCRIPCIÓ
+.B dd
+copia un fitxer (de l'entrada estàndard a la sortida estàndard, per
+omissió) amb una grandària de bloc seleccionable per l'usuari, a l'una
+que, opcionalment, realitza sobre ell certes conversions.
+.PP
+Llegeix de l'entrada un bloc cada vegada, emprant la grandària de bloc
+especificat per a l'entrada (el valor predeterminat és 512 bytes).
+Si l'opció
+.BI bs= bytes
+es va donar, i no es va especificar una conversió a part de
+.BR sync ", " noerror ", o " notrunc ,
+escriu la quantitat de dades llegides (que podria ser menor de la
+demanada) en un bloc de sortida separat. Aquest bloc de sortida té
+precisament la mateixa longitud que quan es va llegir tret que s'hagi
+especificat la conversió
+.BR sync ,
+en aquest cas les dades s'emplenen amb Nuls (o espais, vegi més a baix).
+.PP
+D'una altra manera, l'entrada, llegida un bloc cada vegada, es processa i la
+sortida resultant es recull i s'escriu en blocs de la grandària
+especificada per al bloc de sortida. El bloc de sortida final pot
+ser més curt.
+.PP
+Les opcions de més a baix amb valors numèrics (bytes i blocs)
+poden anar seguides per un factor multiplicador: `k'=1024, `b'=512,
+`w'=2, `c'=1 (`w' i `c' són extensions de GNU; `w' mai
+hauria d'utilitzar-se: significa 2 en System V i 4 en 4.2BSD).
+Dos o més de tals expressions numèriques poden multiplicar-se posant
+una `x' (ics minúscula) entre elles.
+La versió fileutils-4.0 de GNU també permet els següents sufixos
+multiplicativos en especificar grandàries de bloc (en bs=, cbs=, ibs=, obs=):
+M=1048576, G=1073741824, i així per a T, P, I, Z, I. Un sufix `D' els
+converteix en decimal: kD=1000, MD=1000000, GD=1000000000, etc.
+(Dese explica que per ls, df, du, la grandària de M, etc., ve determinat
+per variables d'entorn, però per dd és fix.)
+.SH OPCIONS
+.TP
+.BI "if=" fitxer
+Llegeix des de
+.I fitxer
+en comptes de des de l'entrada estàndard.
+.TP
+.BI "of=" fitxer
+Escriu a
+.I fitxer
+en comptes d'en la sortida estàndard. Tret que s'hagi donat
+.BR conv=notrunc ,
+.B dd
+trunca
+.I fitxer
+a zero bytes (o a la grandària especificada amb
+.BR seek= ")."
+.TP
+.BI "ibs=" bytes
+Lee
+.I bytes
+bytes d'una vegada. El valor predeterminat és 512.
+.TP
+.BI "obs=" bytes
+Escriu
+.I bytes
+bytes d'una vegada. El valor predeterminat és 512.
+.TP
+.BI "bs=" bytes
+Llegeix i escriu
+.I bytes
+bytes d'una vegada. Això substitueix a
+.B ibs
+i a
+.BR obs .
+(I posar
+.B bs
+no és equivalent a posar
+.B ibs
+i
+.B obs
+al seu mateix valor, almenys si no s'ha especificat una conversió
+a part de
+.BR sync ,
+.B noerror
+i
+.BR notrunc ,
+ja que estipula que cada bloc d'entrada serà copiat en
+la sortida com un sol bloc sense agregar blocs curts.)
+.TP
+.BI "cbs=" bytes
+Especifica la grandària de bloc de conversió para
+.B block
+i
+.BR unblock .
+.TP
+.BI "skip=" bloques
+Se salta
+.I bloques
+blocs de grandària en bytes determinat per
+.B ibs
+del fitxer d'entrada abans de la còpia.
+.TP
+.BI "seek=" bloques
+Se salta
+.I bloques
+blocs de grandària en bytes determinat per
+.B obs
+en el fitxer de sortida abans de la còpia.
+.TP
+.BI "count=" blocs
+Copia
+.I blocs
+blocs de grandària en bytes determinat per 
+.B ibs
+del fitxer d'entrada, en comptes de tot fins al final del fitxer.
+.TP
+.BI "conv=" CONVERSIÓ "[," CONVERSIÓ "]..."
+Converteix el fitxer segons s'hagi especificat en l'o els arguments
+.IR CONVERSIÓ .
+(No es permet cap espai al costat de cap coma.)
+.RS
+.PP
+Conversions:
+.PP
+.TP
+.B ascii
+Converteix EBCDIC a ASCII.
+.TP
+.B ebcdic
+Converteix ASCII a EBCDIC.
+.TP
+.B ibm
+Converteix ASCII a un EBCDIC alternatiu.
+.TP
+.B block
+Para cada línia de l'entrada, treu 
+.B cbs
+bytes, reemplaçant el salt
+de línia de l'entrada amb un espai i emplenant amb més espais si
+fos menester.
+.TP
+.B unblock
+Reemplaça espais del final en cada bloc d'entrada de grandària
+determinada per
+.B cbs
+per un salt de línia.
+.TP
+.B lcase
+Canvia les lletres majúscules a minúscules.
+.TP
+.B ucase
+Canvia les lletres minúscules a majúscules.
+.TP
+.B swab
+Intercanvia cada parell de bytes de l'entrada.
+Si es llegeix un nombre imparell de bytes l'últim byte es copia tal qual (ja que
+no té amb qui intercanviar-se). [POSIX 1003.2b, PASC interpretacions
+1003.2 nª 3 i nº 4]
+.TP
+.B noerror
+Continua després de produir-se errors de lectura.
+.TP
+.B notrunc
+No trunca el fitxer de sortida.
+.TP
+.B sync
+Ompleix cada bloc d'entrada fins a la grandària determinada per
+.B ibs
+amb bytes zero al final.
+.RE
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2
+.SH EXEMPLE
+Sovint, una unitat de cinta no acceptarà blocs de grandària arbitrària
+i
+.B dd
+obtindrà un error d' E/S en l'últim fragment de dades que no ocupi un
+bloc sencer. Usi `dd if=mifichero of=/dev/miunidaddecinta conv=sync' per
+assegurar-se que tot s'ha gravat en la cinta. Naturalment, llegir-la de
+nou produirà ara un fitxer lleugerament més gran, amb caràcters nuls
+afegits al final.
+
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B dd
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

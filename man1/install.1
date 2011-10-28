@@ -1,0 +1,206 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH INSTALL 1 "Novembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+install \- copia fitxers i estableix els seus atributs
+.SH SINOPSI
+.B install
+.BI [ opcions ]
+.B [\-s] [\-\-strip]
+.I origen dest
+.br
+.B install
+.BI [ opcions ]
+.B [\-s] [\-\-strip]
+.I origen... directori
+.br
+.B install
+.BI [ opcions ]
+.B [\-d,\-\-directory]
+.I directori...
+.sp
+Opcions (en la forma més curta):
+.br
+.B [\-b]
+.B [\-c]
+.B [\-D]
+.BI "[\-g " grup ]
+.BI "[\-m " manera ]
+.BI "[\-o " propietari ]
+.BI "[\-S " SUFIX ]
+.B [\-V {numbered,existing,simple}]
+.B [\-\-help] [\-\-version] [\-\-]
+.SH DESCRIPCIÓ
+.B install
+copia fitxers i estableix les seves maneres d'accés i, si és possible, els seus
+propietari i grup.
+.PP
+En la primera de les formes d'ocupació esmentades abans, el fitxer
+.I origen
+es copia al fitxer objectiu
+.IR dest .
+En la segona, cadascun dels fitxers
+.I origen
+es copia al
+.I directori
+de destinació.
+En l'última, cada
+.I directori
+(i els directoris pares que faltin) es crea.
+.PP
+.B install
+és similar a
+.BR cp ,
+però ens permet controlar els atributs dels fitxers destino. S'empra
+normalment en Makefiles per copiar programes als
+seus directoris de destinació. Rehúsa copiar fitxers sobre ells mateixos.
+.PP
+.SH OPCIONS
+.TP
+.B "\-c"
+No fa gens; per compatibilitat amb velles versions de
+.B install
+d'Unix, on significava "copiar" en comptes de "moure". Aquesta versió
+sempre copia.
+.TP
+.B "\-d, \-\-directory"
+Crea cada directori donat i els seus ancestres, si no existeixen ja. Estableix
+el propietari, grup i permís als quals es donin en la línia
+d'ordres o als predeterminats. També dóna aquests atributs als
+directoris, previs en el camí, que es creuen. Aquest comportament
+és diferent del
+.B install
+de SunOS 4.x, que donava als directoris que creava els atributs
+predeterminats.
+.TP
+.B "\-D"
+Crea tots els components davanters de
+.I dest
+excepte l'últim i a continuació copia
+.I origen
+a
+.IR dest .
+Aquesta opció és útil en el primer format de la sinopsi, a dalt.
+(Nova en file\%utils-4.0.)
+.TP
+.BI "\-g " "grup" ", \-\-group=" "grup"
+Estableix el grup propietari dels fitxers instal·lats o
+directoris al GID de
+.I grup
+(el grup predeterminat és el del procés en curs).
+.I grup
+pot donar-se pel nom o pel GID numèric.
+.TP
+.BI "\-m " "manera" ", \-\-mode=" "manera"
+Estableix la manera de permisos per al fitxer instal·lat o directori a
+.IR manera ,
+que pot ser un nombre octal o una manera simbòlica com en
+.BR chmod ,
+sent 0 el punt de partida. La manera predeterminada és 0755: lectura,
+escriptura i execució per al propietari, i lectura i execució per al
+grup i per als altres.
+.TP
+.BI "\-o " "propietari" ", \-\-owner=" "propietari"
+Si
+.B install
+posseeix els privilegis apropiats (si és executat per root), estableix
+el propietari dels fitxers o directoris instal·lats a
+.IR propietari .
+El predeterminat és `root'.
+.I propietari
+pot ser un nom d'usuari o un UID numèric.
+.TP
+.B "\-s, \-\-strip"
+Lleva les taules de símbols dels executables binaris instal·lats.
+.SH "OPCIONS DE RESPATLLER DE GNU"
+Les versions de GNU de programes com
+.BR cp ,
+.BR mv ,
+.BR ln ,
+.B install
+i
+.B patch
+faran una còpia de respatller de fitxers que siguin a punt de
+ser sobreescritos, canviats o destruïts, si es desitja. I per indicar que
+es desitgen aquests fitxers de respatller s'empra l'opció \-b. S'especifica
+com haurien de nomenar-se mitjançant l'opció \-V. En el cas
+que el nom del fitxer de respatller es doni amb el nom del
+fitxer estès amb un sufix, aquest sufix s'especifica amb
+l'opció \-S.
+.TP
+.B "\-b, \-\-backup"
+Fa còpies de respatller de fitxers que siguin a punt de
+ser sobreescritos o esborrats.
+.TP
+.BI "\-S " SUFIX ", \-\-suffix=" SUFIX
+Afegeix
+.I SUFIX
+a cada fitxer de respatller fet.
+Si aquesta opció no es dóna, s'empra el valor de la variable d'entorn
+.BR SIMPLE_BACKUP_SUFFIX .
+I si
+.B SIMPLE_BACKUP_SUFFIX
+no està definida, el valor predeterminat és `'.
+.TP
+.BI "\-V " MÈTODE ", \-\-version\-control=" MÈTODE
+.RS
+Especifica com els fitxers de respatller han de cridar-se. L'argument
+.I MÈTODE
+pot ser `numbered' (o `t'), `existing' (o `nil'), o `never' (o
+`simple').
+Si aquesta opció no es dóna, s'empra el valor de la variable d'entorn
+.BR VERSION_CONTROL .
+I si
+.B VERSION_CONTROL
+no està definida, el tipus predeterminat de còpia de respatller és
+`existing'.
+.PP
+Aquesta opció correspon a la variable de Emacs `version-control'.
+Els
+.IR MÈTODE s
+vàlids són (s'accepten abreviatures no ambigües):
+.TP
+.BR t ", " numbered
+Sempre fa còpies de respatller numerades.
+.TP
+.BR nil ", " existing
+Fa còpies de respatller numerades de fitxers que ja les tinguin,
+còpies simples dels altres.
+.TP
+.BR never ", " simple
+Sempre fa còpies de respatller simples.
+.RE
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió, i després
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+Els variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals. Per a la versió de GNU, les variables
+SIMPLE_BACKUP_SUFFIX i VERSION_CONTROL controlen com es nomenen els
+fitxers de respatller, segons s'ha descrit anteriorment.
+.SH "CONFORME A"
+BSD 4.2 (que tenia les opcions \-c, \-m, \-o, \-g i \-s).
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B install
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

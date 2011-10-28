@@ -1,0 +1,476 @@
+.\" Date: Fri, 11 Sep 1998 19:13:45 +0100
+.\" From: Edward Betts <edward@hairnet.demon.co.uk>
+.\"
+.\" Derived from the GNU diff info page.
+.\" May be distributed under the GPL.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH DIFF 1 "22 Setembre 1993" "Eines de GNU" "Eines de GNU"
+.SH NOM
+diff \- busca diferències entre dos fitxers
+.SH SINOPSI
+.B diff
+[opcions] fitxer-origen fitxer-destino
+.SH DESCRIPCIÓ
+En el cas més simple,
+.I diff
+compara els continguts dels dos fitxers
+.I fitxer-origen
+i
+.IR fitxer-destí .
+Un nom de fitxer
+.B \-
+significa text llegit des de l'entrada estàndard. Com un cas especial,
+.B "diff \- \-"
+compara una còpia de l'entrada estàndard amb si mateixa.
+
+Si
+.I fitxer-origen
+és un directori i
+.I fitxer-destí
+no ho és,
+.I diff
+compara el fitxer en
+.I fitxer-origen
+el nom del qual sigui igual que el de
+.IR fitxer-destí ,
+i viceversa. El fitxer no directori no pot ser
+.BR \- .
+
+Si tant
+.I fitxer-origen
+com
+.I fitxer-destí
+són directoris,
+.I diff
+compara els fitxers corresponents en tots dos directoris, en ordre
+alfabètic; aquesta comparació no és recursiva tret que s'hagin donat
+les opcions
+.B \-r
+o
+.BR \-\-recursive .
+.I diff
+mai compara els continguts reals d'un directori com si fos un
+fitxer. El fitxer que s'especifiqui completament no pot ser l'entrada
+estàndard, ja que l'entrada estàndard no té nom i la
+noció de ``fitxer amb el mateix nom'' no pot aplicar-se.
+
+Les opcions de
+.B diff
+comencen amb
+.BR \- ,
+així que normalment
+.I fitxer-origen
+i
+.I fitxer-destí
+no poden començar amb
+.BR \- .
+No obstant això,
+.B \-\-
+com un argument sol, tracta els restants arguments com a noms de
+fitxer fins i tot si comencen amb
+.BR \- .
+.SS Opcions
+A continuació es presenta un sumari de totes les opcions que
+.I diff
+de GNU accepta.
+La majoria d'elles tenen dos noms equivalents, un dels quals
+és una sola lletra precedida per
+.BR \- ,
+i l'altre és un nom llarg precedit per
+.BR \-\- .
+Diverses opcions d'una sola lletra (tret que prenguin un argument)
+poden combinar-se en una sola paraula de la línia d'ordres:
+.B \-ac
+és
+equivalent a
+.BR "\-a \-c" .
+Les opcions llargues poden abreujar-se a un prefix únic dels seus
+noms. Els claudàtors
+.RB ( [
+i
+.BR ] )
+indiquen que una opció pren un argument opcional.
+.TP
+.BI \- línies
+Mostra
+.I línies
+(un enter) línies de context. Aquesta opció no especifica per si mateixa
+un format de sortida; no té efecte si no es combina amb
+.B \-c
+o
+.BR \-u .
+Aquesta opció està obsoleta. Per a una operació correcta,
+.I patch
+necessita típicament almenys dues línies de context.
+.TP
+.B \-a
+Tracta tots els fitxers com de text i els compara línia per línia,
+fins i tot si no semblen ser de text.
+.TP
+.B \-b
+Fa cas omís de canvis referents a la quantitat d'espai en blanc.
+.TP
+.B \-B
+No fa cas de canvis consistents en només inserir o esborrar línies
+en blanc.
+.TP
+.B \-\-brief
+Informa solament de si els fitxers difereixen, no sobre els
+detalls de les diferències.
+.TP
+.B \-c
+Empra el format de sortida de context.
+.TP
+.BI "\-C " línies
+.br
+.ns
+.TP
+.BI \-\-context[= línies ]
+Empra el format de sortida de context, mostrant
+.I línies
+(un enter) línies de context, o tres si
+.I línies
+no es dóna.
+Per a una operació correcta,
+.I patch
+necessita típicament almenys dues línies de context.
+.TP
+.BI \-\-changed\-group\-format= format
+Empra
+.I format
+per mostrar un grup de línies contenint línies que difereixen en
+tots dos fitxers en format if-then-else (si-llavors-en un altre cas).
+.TP
+.B \-d
+Canvia l'algorisme per potser trobar un conjunt de canvis més
+petit. Això fa
+a .I diff
+més lent (de vegades molt més lent).
+.TP
+.BI "\-D " nom
+Construeix la sortida en format if-then-else barrejada, condicional
+segons la macro del preprocesador
+.IR nom .
+.TP
+.B \-i
+.br
+.ns
+.TP
+.B \-\-ed
+Fa que la sortida sigui un guió vàlid per a
+.IR ed .
+.TP
+.BI \-\-exclude= patró
+Quan compara directoris, descarta fitxers i subdirectoris els
+noms dels quals basi concordin amb
+.IR patró .
+.TP
+.BI \-\-exclude\-from= fitxer
+Quan compara directoris, descarta fitxers i subdirectoris els
+noms dels quals casi concordin amb qualsevol patró contingut en
+.IR fitxer .
+.TP
+.B \-\-expand\-tabs
+Expandeix tabuladors a espais en la sortida, per conservar l'alineació
+de tabuladors en els fitxers d'entrada.
+.TP
+.B \-f
+Construeix una sortida que s'assembla vagament a un guió de l'editor
+.I ed
+però té canvis en l'ordre en què apareixen en el fitxer.
+.TP
+.BI "\-F " expreg
+En formats de context i unificat, per a cada tros de diferències,
+mostra una mica de l'última línia precedent que concordi amb
+l'expressió regular
+.IR expreg .
+.TP
+.B \-\-forward\-ed
+Construeix una sortida que s'assembla vagament a un guió de l'editor
+.B ed
+però té canvis en l'ordre en què apareixen en el fitxer.
+.TP
+.B \-h
+Aquesta opció no té actualment efecte; està present per
+compatibilitat amb Unix.
+.TP
+.B \-H
+Empra heurística per agilitar el tractament de fitxers grans que
+tenen nombrosos canvis petits dispersos.
+.TP
+.BI \-\-horizon\-lines= línies
+No descarta les últimes
+.I línies
+línies del prefix comú i les primeres
+.I línies
+línies del sufix comú.
+.TP
+.B \-i
+No fa cas de canvis en la caixa tipogràfica; considera les lletres
+majúscules i minúscules equivalents.
+.TP
+.BI "\-I " expreg
+Descarta canvis que simplementen insereixin o esborrin línies que
+concordin amb l'expressió regular
+.IR expreg .
+.TP
+.BI \-\-ifdef= nomeni
+Construeix la sortida en format if-then-else barrejada, condicional
+segons la macro del preprocesador
+.IR nom .
+.TP
+.B \-\-ignore\-all\-space
+No fa cas de l'espai en blanc quan compara línies.
+.TP
+.B \-\-ignore\-blank\-lines
+No fa cas de canvis que només consisteixin a inserir o esborrar línies
+en blanc.
+.TP
+.B \-\-ignore\-casi
+No fa cas de canvis en la caixa tipogràfica; considera lletres
+majúscules i minúscules igual.
+.TP
+.BI \-\-ignore\-matching\-lines= expreg
+No fa cas de canvis que solament consisteixin a inserir o esborrar
+línies que concordin amb
+.IR expreg .
+.TP
+.B \-\-ignore\-space\-change
+No fa cas de canvis en la quantitat d'espai en blanc.
+.TP
+.B \-\-initial\-tab
+Mostra en la sortida un tabulador en comptes d'un espai abans del text
+d'una línia en format normal o de context. Això fa que l'alineació
+de tabuladors en la línia es vegi normal.
+.TP
+.B \-l
+Passa la sortida a través de
+.I pr
+per paginarla.
+.TP
+.BI "\-L " etiqueta
+.br
+.ns
+.TP
+.BI \-\-label= etiqueta
+Empra
+.I etiqueta
+en comptes del nom del fitxer en les capçaleres de formats de context
+i unificat.
+.TP
+.B \-\-left\-column
+Imprimeix solament la columna esquerra de dues línies comunes en
+el format de costat a costat.
+.TP
+.BI \-\-line\-format= format
+Empra
+.I format
+per mostrar en la sortida totes les línies d'entrada en el format
+if-then-else.
+.TP
+.B \-\-minimal
+Canvia l'algorisme per potser trobar un conjunt més petit de
+canvis. Això fa
+a .I diff
+més lent (de vegades molt més lent).
+.TP
+.B \-n
+Mostra en la sortida diferencies en format RCS; com
+.B \-f
+excepte en què cada ordre especifica el nombre de línies afectades.
+.TP
+.B \-N
+.br
+.ns
+.TP
+.B \-\-new\-file
+En comparacions de directori, si es troba un fitxer en
+solament un directori, ho tracta com a present però buit en l'altre.
+.TP
+.BI \-\-new\-group\-format= format
+Empra
+.I format
+per mostrar en la sortida un grup de línies preses de just el
+segon fitxer en el format if-then-else.
+.TP
+.BI \-\-new\-line\-format= format
+Empra
+.I format
+per mostrar en la sortida una línia presa de just el
+segon fitxer en el format if-then-else.
+.TP
+.BI \-\-old\-group\-format= format
+Empra
+.I format
+per mostrar en la sortida un grup de línies preses de just el
+primer fitxer en el format if-then-else.
+.TP
+.BI \-\-old\-line\-format= format
+Empra
+.I format
+per mostrar en la sortida una línia presa de just el
+primer fitxer en el format if-then-else.
+.TP
+.B \-p
+Mostra en quina funció de C està cada canvi.
+.TP
+.B \-P
+Quan compara directoris, si un fitxer apareix solament en
+el segon directori dels dos, ho tracta com a present però buit en
+l'altre.
+.TP
+.B \-\-paginate
+Pansa la sortida per
+.I pr
+per paginarla.
+.TP
+.B \-q
+Informa només de si els fitxers difereixen, no dels detalls de les
+diferències. 
+.TP
+.B \-r
+Quan compara directoris, compara recursivamente qualssevol
+subdirectoris oposats.
+.TP
+.B \-\-rcs
+Mostra en la sortida diferencies en format RCS; com
+.B \-f
+excepte en què cada ordre especifica el nombre de línies afectades.
+.TP
+.B \-\-recursive
+Quan compara directoris, compara recursivamente qualssevol
+subdirectoris oposats.
+.TP
+.B \-\-report\-identical\-files
+.br
+.ns
+.TP
+.B \-s
+Informa de quan dos fitxers són el mateix.
+.TP
+.BI "\-S " fitxer
+Quan compara directoris, comença amb el fitxer
+.IR fitxer .
+Això s'usa per reprendre una comparació interrompuda.
+.TP
+.B \-\-sdiff\-merge\-assist
+Mostra informació extra per ajudar a
+.IR sdiff .
+.I sdiff
+empra aquesta opció quan executa
+.IR diff .
+Aquesta opció no està pensada perquè els usuaris l'emprin
+directament.
+.TP
+.B \-\-xou\-c\-function
+Mostra en quina funció de C està cada canvi.
+.TP
+.BI \-\-xou\-function\-line= expreg
+En formats de context i unificat, per a cada tros de diferències,
+mostra una mica de l'última línia precedent que concordi amb
+l'expressió regular
+.IR expreg .
+.TP
+.B \-\-side\-by\-side
+Empra el format de sortida costat a costat.
+.TP
+.B \-\-speed\-large\-files
+Empra una heurística per agilitar el tractament de fitxers grans
+que tenen nombrosos petits canvis dispersos.
+.TP
+.BI \-\-starting\-file= fitxer
+Quan compara directoris, comença amb el fitxer
+.IR fitxer .
+Això s'empra per reprendre una comparació interrompuda.
+.TP
+.B \-\-suppress\-common\-lines
+No mostra línies comunes en format costat a costat.
+.TP
+.B \-t
+Expandeix tabuladors a espais en la sortida, per preservar l'alineament
+de tabuladors en els fitxers d'entrada.
+.TP
+.B \-T
+Mostra en la sortida un tabulador en comptes d'un espai abans del text
+d'una línia en format normal o de context. Això fa que l'alineació
+de tabuladors en la línia es vegi de forma normal.
+.TP
+.B \-\-text
+Tracta tots els fitxers com a text i els compara línia per línia,
+fins i tot si no semblen ser de text.
+.TP
+.B \-o
+Empra el format de sortida unificat.
+.TP
+.BI \-\-unchanged\-group\-format= format
+Empra
+.I format
+per mostrar en la sortida un grup de línies comunes preses de tots dos
+fitxers en format if-then-else.
+.TP
+.BI \-\-unchanged\-line\-format= format
+Empra
+.I format
+per mostrar en la sortida una línia comuna a tots dos fitxers en
+el format if-then-else.
+.TP
+.B \-\-unidirectional\-new\-file
+Quan compara directoris, si un fitxer apareix només en el 2º
+directori dels dos, ho tracta com a present però buit en l'altre.
+.TP
+.BI "\-O " línies
+.br
+.ns
+.TP
+.BI \-\-unified[= línies ]
+Empra el format de sortida unificat, mostrant
+.I línies
+(un enter) línies de context, o tres si
+.I línies
+no es dóna.
+Per a una operació correcta,
+.I patch
+necessita típicament com a poc dues línies
+de context.
+.TP
+.B \-v
+.br
+.ns
+.TP
+.B \-\-version
+Mostra en la sortida el nombre de versió de
+.IR diff .
+.TP
+.B \-w
+Descarta espai en blanc quan compara línies.
+.TP
+.BI "\-W " columnes
+.br
+.ns
+.TP
+.BI \-\-width= columnes
+Empra una amplària de sortida
+de .I columnes
+en el format de costat a costat.
+.TP
+.BI "\-x " patró
+Quan compara directoris, descarta fitxers i subdirectoris els
+noms dels quals basi concordin amb
+.IR patró .
+.TP
+.BI "\-X " fitxer
+Quan compara directoris, descarta fitxers i subdirectoris els
+noms dels quals basi concordin amb qualsevol patró contingut en
+.IR fitxer .
+.TP
+.B \-i
+Empra el format de costat a costat.
+.SH VEGEU TAMBÉ
+cmp(1), comm(1), diff3(1), ed(1), patch(1), pr(1), sdiff(1).
+.SH DIAGNÒSTICS
+Un estat de sortida de 0 significa que no es van trobar diferències,
+1 significa que es va trobar alguna diferència i 2 significa problemes.
+

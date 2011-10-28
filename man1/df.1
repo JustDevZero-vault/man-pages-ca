@@ -1,0 +1,212 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH DF 1 "Noviembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+df \- informa de la utilització de l'espai de disc en sistemes de fitxers
+.SH SINOPSI
+.BI "df [" opcions "] [" fitxer... ]
+.sp
+Opcions de POSIX:
+.B [\-kP]
+.sp
+Opcions de GNU (en la forma més curta):
+.B [\-ahHiklmPv]
+.BI "[\-t " tipo-sf ]
+.BI "[\-x " tipo-sf ]
+.BI "[\-\-block\-size=" tamany ]
+.B [\-\-print\-type]
+.B [\-\-no\-sync]
+.B [\-\-sync]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B df
+informa de la quantitat d'espai de disc usada i de la disponible en
+sistemes de fitxers.
+.PP
+Sense arguments,
+.B df
+informa de l'espai usat i del disponible en tots els sistemes de
+fitxers muntats actualment (de tots els tipus).
+D'una altra manera,
+.B df
+informa només del sistema de fitxers on estigui cada argument
+.IR fitxer .
+.SH "DETALLS DE POSIX"
+La sortida és en unitats de 512 bytes per omissió, si ben si es dóna
+l'opció \-k ho és en unitats de 1024 bytes.
+El format de sortida és indefinit, tret que es doni l'opció \-P.
+Si
+.I fitxer
+no és un fitxer regular, un directori o un FIFO, el resultat és
+indeterminat. 
+.SH "DETALLS DE GNU"
+La sortida és en unitats de 1024 bytes (quan en les opcions no
+s'especifiquin altres unitats), tret que la variable d'entorn
+.B POSIXLY_CORRECT
+estigui definida, en aquest cas se segueix el comportament POSIX.
+.PP
+Si un argument
+.I fitxer
+és un fitxer de dispositiu de disc que conté un sistema de
+fitxers muntat,
+.B df
+mostra l'espai disponible en aquest sistema de fitxers en lloc del del
+sistema de fitxers que conté el node o fitxer especial de
+dispositiu. 
+.SH "OPCIONS DE POSIX"
+.TP
+.B "\-k"
+Empra unitats de 1024 bytes (1 kB) en lloc de les predeterminades
+de 512 bytes.
+.TP
+.B "\-P"
+La sortida és en 6 columnes, amb capçalera (en la localització "C")
+`Filesystem N-blocks Used Available Capacity Mounted on' (amb N=512, o N=1024
+amb l'opció \-k). En espanyol, la capçalera seria `Sistema de Fitxers
+Blocs de N bytes Usat Disponible Capacitat Muntat en'.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-a, \-\-all"
+Inclou en el llistat sistemes de fitxers que tenen una grandària de
+0 blocs, els que de forma predeterminada s'ometen. Tals sistemes de
+fitxers són típicament pseudo-sistemes de fitxers de propòsits
+especials, com a entrades de l'auto-muntador. També, sistemes de
+fitxers de tipus "ignore" o "auto", suportats per alguns sistemes
+operatius, s'inclouen solament si s'especifica aquesta opció.
+.TP
+.BI "\-\-block\-size=" tamaño
+Mostra les grandàries en blocs de
+.I tamany
+bytes. (Nova encara que defectuosa en fileutils-4.0.)
+.TP
+.B "\-h, \-\-human\-readable"
+Afegeix una lletra indicativa de grandària, com
+.B M
+para megabytes binaris (`mebibytes'), a cada grandària.
+.TP
+.B "\-H, \-\-si"
+Fa el mateix que
+.BR \-h ,
+però usa les unitats oficials del SI (amb potències de 1000 en comptes de
+1024, per la qual cosa M representa 1000000 en lloc de 1048576).
+(Nova en fileutils-4.0.)
+.TP
+.B "\-i, \-\-inodes"
+Llista informació sobre la utilització de inodes en lloc de la de
+blocs. Un inode (abreviatura de node índex) conté
+informació sobre un fitxer com per exemple el seu propietari,
+permisos, marques de temps, i localització dels seus blocs de dades en
+el disc. 
+.TP
+.B "\-k, \-\-kilobytes"
+Mostra les grandàries en blocs de 1024 bytes.
+.TP
+.B "\-l, \-\-local"
+Limita la sortida només a sistemes de fitxers locals.
+(Nova en fileutils-4.0.)
+.TP
+.B "\-m, \-\-megabytes"
+Mostra les grandàries en blocs de megaoctets binaris (això és, de 1048576
+bytes). Dese explica que les quatre opcions \-h, \-H, \-k, \-m són
+mútuament excloents i només es tindrà en compte l'última. Aquest no
+és el cas de les opcions \-\-si i \-m ja que si es posen ambdues es
+produirà una sortida en megaoctets (realment, 1000000 bytes). [La
+interpretació de les grandàries de bloc també es veu afectada per la
+variable d'entorn BLOCK_SIZE, però això no funciona en la versió
+fileutils-4.0 version.]
+.TP
+.B "\-\-no\-sync"
+No crida a la primitiva
+.B sync
+abans d'obtenir qualsevol dada d'utilització d'espai.
+Això pot fer que
+.B df
+s'executi bastant més ràpid, però en alguns sistemes (notablement
+en SunOS) els resultats poden estar alguna cosa desfasats. Això és el
+comportament predeterminat.
+.TP
+.B "\-P, \-\-portability"
+Empra el format de sortida de
+.SM POSIX.
+Aquest és com el format predeterminat tret que la informació sobre
+cada sistema de fitxers s'imprimeix sempre en exactament una línia;
+un dispositiu de muntatge mai es posa en una línia solament. Això
+significa que si el nom del dispositiu de muntatge és de més de 20
+caràcters de llarg (p. ex. això pot ocórrer en muntatges de xarxa),
+les columnes s'alinearan malament.
+.TP
+.B "\-\-sync"
+Crida a la primitiva
+.B sync
+abans d'obtenir qualsevol dada d'utilització d'espai. En alguns
+sistemes (notablement en SunOS), això porta a resultats més al dia,
+però en general aquesta opció fa a
+.B df
+molt més lent, especialment quan hi ha molts sistemes de fitxers
+o estan molt ocupats, actius.
+.TP
+.BI "\-t " "tipo-sf, " "\-\-type=" "tipo-sf"
+Limita el llistat a sistemes de fitxers de tipus
+.IR tipo-sf .
+Es poden especificar diversos tipus de sistemes de fitxers donant
+diverses opcions
+.BR \-t .
+De forma predeterminada, cap s'omet.
+.TP
+.B "\-T, \-\-print\-type"
+Mostra cada tipus de sistema de fitxers.
+Els tipus donats són aquells dels quals informa el sistema (i es
+troben en una forma depenent del sistema, per exemple llegint 
+.IR /etc/mtab ).
+Consulti també
+.BR mount (8).
+.TP
+.BI "\-x " "tipo-sf, " "\-\-exclude\-type=" "tipo-sf"
+Limita el llistat als sistemes de fitxers que no siguin de tipus
+.IR tipus-sf .
+Es poden eliminar diversos tipus de sistemes de fitxers donant diverses opcions
+.BR "\-x" .
+De forma predeterminada, no s'omet cap tipus de sistema de fitxers.
+.TP
+.B "\-v"
+No fa res; s'accepta per compatibilitat amb versions de 
+.B df
+de System V.
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Muestra en la salida estándar información sobre la versión, y luego
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+La variable POSIXLY_CORRECT determina l'elecció de la unitat.
+Si no està definida, i la variable BLOCKSIZE té un valor que
+comenci per `HUMAN', llavors el comportament és com el que es
+obté amb l'opció \-h, tret que s'hagin donat les opcions \-k
+o \-m.
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2.
+.SH "VEGEU TAMBÉ"
+.BR mount (8)
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B df
+com es troba en el paquet fileutils-4.0; altres versions poden
+diferir alguna cosa. Enviï per correu electrònic les seves correccions i
+suggeriments a aeb@cwi.nl. Enviï els informes de fallades al
+programa a fileutils-bugs@gnu.ai.mit.edu.

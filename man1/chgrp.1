@@ -1,0 +1,90 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH CHGRP 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+chgrp \- canvia el grup al que pertanyen els fitxers
+.SH SINOPSI
+.BI "chgrp [" opcions "] " "grup fitxer..."
+.sp
+Opcions de POSIX:
+.B [\-R]
+.sp
+Opcions GNU (en la forma més curta):
+.B [\-cfvR]
+.BI [\-\-reference= rfile ]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B chgrp
+canvia el grup al que pertany cada
+.I fichero
+donat al grup
+.IR grupo ,
+que pot ser o bé un nom de grup o un identificador de grup
+numèrico (GID).
+.SH "OPCIONS DE POSIX"
+.TP
+.B \-R
+Canvia recursivamente el grup al que pertanyen directoris i els seus
+continguts. (I continua fins i tot si es troben errors.)
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-c, \-\-changes"
+Descriu prolixament l'acció per cada
+.I fitxer
+el grup del qual canviï realment.
+.TP
+.B "\-f, \-\-silent, \-\-quiet"
+No mostra missatges d'error sobre fitxers el grup dels quals no pugui canviar-se.
+.TP
+.B "\-h, \-\-no\-dereference"
+Actua sobre enllaços simbòlics pròpiament en comptes de sobre allò al que
+apuntin. Disponible solament si el sistema proporciona la primitiva
+.BR lchown .
+.TP
+.B "\-v, \-\-verbose"
+Descriu amb prolijidad l'acció efectuada o no per cada
+.IR fitxer .
+.TP
+.B "\-R, \-\-recursive"
+Canvia recursivamente el grup propietari de directoris i els seus
+continguts.
+.TP
+.BI "\-\-reference=" "rfile"
+(Nueva en fileutils 4.0.)
+Canvia el grup propietari del fitxer
+.I file
+al del fitxer
+.IR rfile .
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'us i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2 només requereix l'opció \-R. L'ocupació d'altres opcions
+pot no ser transportable.
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B chgrp
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

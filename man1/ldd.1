@@ -1,0 +1,77 @@
+.\" Copyright 1995-2000 David Engel (david@ods.com)
+.\" Copyright 1995 Rickard E. Faith (faith@cs.unc.edu)
+.\" Copyright 2000 Ben Collins (bcollins@debian.org)
+.\"    Redone for GLibc 2.2
+.\" Copyright 2000 Jakub Jelinek (jakub@redhat.com)
+.\"    Corrected.
+.\" Most of this was copied from the README file.
+.\" Do not restrict distribution.
+.\" May be distributed under the GNU General Public License
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+
+.\"
+.TH LDD 1 "30 octubre 2000"
+.SH NOM
+ldd \- mostra les dependències de biblioteques compartides
+.SH SINOPSI
+.B ldd
+.RB [OPCIÓ]...
+FITXER...
+.SH DESCRIPCIÓ
+.B ldd
+mostra les biblioteques compartides requerides per cada programa o biblioteca compartida
+especificada en la línia d'ordres.
+.SH OPCIONS
+.TP
+.B \-V\ \-\-version
+Imprimeix el nombre de versió de
+.BR ldd .
+.TP
+.B \-v\ \-\-verbose
+Mostra tota la informació, incloent p.i. informació sobre versions de símbols.
+.TP
+.B \-d\ \-\-data\-relocs
+Duu a terme les relocalizaciones i informa de qualsevol objecte no oposat (només ELF).
+.TP
+.B \-r\ \-\-function\-relocs
+Duu a terme les relocalizaciones per als objectes de dades i les funcions, i
+informa de qualsevol objecte o funció no oposats (només ELF).
+.TP
+.B \-\-help
+Informació d'ús.
+.SH OBSERVACIONS
+La versió estàndard de
+.B ldd
+ve amb glibc2. Libc5 ve amb una versió més antiga que encara es pot trobar
+en alguns sistemes. Les opcions llargues no estan suportades per la versió de libc5.
+D'altra banda, la versió de glibc2 no suporta l'opció
+.B \-V
+i només posseeix l'opció equivalent
+.BR \-\-version .
+.LP
+La versió de libc5 d'aquest programa interpreta el nom de la biblioteca especificada
+en la línia d'ordres com una ruta a la mateixa quan conté el caràcter '/'; en un altre cas
+busca la biblioteca en les localitzacions estàndards. Per executar-ho sobre
+una biblioteca compartida que es troba en el directori actual, anteposi al nom
+el prefix "./".
+.SH FALLADES
+.B ldd
+no funciona amb biblioteques compartides a.out.
+.PP
+.B ldd
+no funciona amb alguns programes a.out extremadament antics que
+van ser construïts abans que el suport para
+.B ldd
+fuera añadido a las versiones de los compiladores.
+Si usa
+.B ldd
+amb algun d'aquests programes, el programa intentarà executar-se amb
+\fIargc\fP = 0 i els resultats seran impredictibles.
+.\" .SH AUTOR
+.\" David Engel.
+.\" Roland McGrath y Ulrich Drepper.
+.SH VEGEU TAMBÉ
+.BR ldconfig (8),
+.BR ld.so (8)

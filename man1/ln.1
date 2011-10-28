@@ -1,0 +1,245 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH LN 1 "Novembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+ln \- crea enllaços entre fitxers
+.SH SINOPSI
+.B ln [opcions]
+.IB origen " [" dest ]
+.br
+.B ln [opcions]
+.I origen... directori
+.sp
+Opcions de POSIX:
+.B [\-f]
+.sp
+Opcions de GNU (en la forma més curta):
+.B [\-bdfinsvF]
+.BI "[\-S " sufix-de-respatller ]
+.B "[\-V {numbered,existing,simple}]"
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+Hi ha en Unix dos conceptes de `enllaç', cridats usualment enllaç
+dur (o físic) i enllaç tou (o simbòlic). Un enllaç dur és
+simplement un nom per a un fitxer. (I un fitxer pot tenir diversos
+noms. S'esborra del disc solament quan s'elimini l'últim nom.
+El nombre de noms ho mostra
+.BR ls (1).
+No existeix el concepte de nom `original': tots tenen la mateixa
+categoria. Usualment, però no necessàriament, tots els noms d'un
+fitxer es troben en el sistema de fitxers que també conté
+les seves dades.)
+.PP
+Un enllaç tou (o enllaç simbòlic, o accés directe) és un animal
+completament diferent: és un ficherito especial que conté un
+nom de camí. Així, els enllaços tous poden apuntar a fitxers
+en sistemes de fitxers diferents (possiblement muntats per NFS
+des de màquines diferents), i no tenen per què apuntar a fitxers que
+existeixin realment.
+Quan s'accedeix a ells (amb les trucades al sistema
+.BR open (2)
+o
+.BR stat (2)),
+el nucli del sistema operatiu reemplaça una referència a un enllaç tou
+amb una referència al fitxer nomenat en el nom de camí.
+(No obstant això, amb
+.BR rm (1)
+i
+.BR unlink (2)
+s'esborra el mateix enllaç, no el fitxer al com anotació.
+Existeixen les trucades al sistema especials
+.BR lstat (2)
+i
+.BR readlink (2)
+que llegeixen l'estat d'un enllaç tou i el nom de fitxer al com anotació.
+Per a algunes altres trucades al sistema, entre diferents sistemes
+operatius hi ha algunes variacions i faltes de certesa sobre si l'operació
+actua en el mateix enllaç, o sobre el fitxer al que apunti.)
+.PP
+.B ln
+crea enllaços entre fitxers. De forma predeterminada, fa enllaços
+durs; amb l'opció
+.BR "\-s" ,
+fa enllaços simbòlics (o `tous').
+.PP
+Si només es dóna un fitxer, ho enllaça en el directori en curs; això
+és, crea un enllaç a aquest fitxer en el directori de treball, amb
+el nom igual al (últim component) del fitxer. (Això és una
+extensió de GNU.)
+D'una altra manera, si l'últim argument es refereix a un directori existent,
+.B ln
+crearà enllaços a cada fitxer
+.I origen
+esmentat, en aquest directori, amb un nom igual al (últim
+component) d'aquest fitxer
+.IR origen .
+(Però vegi la descripció de l'opció
+.B "\-\-no\-dereference"
+més a baix.)
+D'una altra forma, si només es donen dos fitxers, crea un enllaç anomenat
+.I dest
+al fitxer
+.IR origen .
+És un error que l'últim argument no sigui un directori i que es donin
+més de dos fitxers.
+.PP
+De forma predeterminada,
+.B ln
+no esborra fitxers o enllaços simbòlics que ja existeixin.
+(Així, pot emprar-se per a propòsits de bloqueig: tindrà èxit
+solament si
+.I dest
+no existia ja.)
+Però se li pot forçar a esborrar-los amb l'opció \-f.
+.PP
+En implementacions existents, si és que fos possible fer
+un enllaç dur a un directori, això només ha de ser fet pel
+súper-usuari. POSIX prohibeix que la trucada al sistema
+.BR link (2)
+i la utilitat
+.B ln
+facin enllaços durs a directoris (però no prohibeix que els enllaços
+durs creuin els limitis dels sistemes de fitxers).
+.SH "OPCIONS DE POSIX"
+.TP
+.B "\-f"
+Esborra els fitxers de destinació que ja existissin.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-d, \-F, \-\-directory"
+Permet al súper-usuari fer enllaços durs a directoris.
+.TP
+.B "\-f, \-\-force"
+Esborra els fitxers de destinació que ja existissin.
+.TP
+.B "\-i, \-\-interactive"
+Pregunta abans d'esborrar fitxers de destinació existents.
+.TP
+.B "\-n, \-\-no\-dereference"
+Quan es dóna una destinació explícita que és un enllaç tou a
+un directori, tracta a aquesta destinació com si fos un fitxer normal.
+Quan la destinació és un directori de debò (no un enllaç simbòlic a
+un), no hi ha ambigüitat. L'enllaç es crea en aquest directori.
+Però quan la destinació especificada és un enllaç simbòlic a
+un directori, hi ha dues maneres de tractar la petició de l'usuari.
+.B ln
+pot tractar la destinació justa com si fos un directori normal i
+crear l'enllaç en ell. D'altra banda, la destinació pot ser vist com
+un no-directori: com l'enllaç simbòlic en si mateix. En aquest cas,
+.B ln
+ha d'esborrar o fer còpia de respatller d'aquest enllaç simbòlic abans
+de crear el nou enllaç. El comportament predeterminat és tractar una
+destinació que sigui un enllaç simbòlic a un directori com justament un
+directori.
+.TP
+.B "\-s, \-\-symbolic"
+Fa enllaços simbòlics en lloc d'enllaços durs. Aquesta opció
+simplement produeix un missatge d'error en sistemes que no admetin
+enllaços simbòlics.
+.TP
+.B "\-v, \-\-verbose"
+Mostra el nom de cada fitxer abans d'enllaçar-ho.
+.SH "OPCIONS DE RESPATLLER DE GNU"
+Les versions de GNU de programes com
+.BR cp ,
+.BR mv ,
+.BR ln ,
+.B install
+i
+.B patch
+faran una còpia de respatller de fitxers que siguin a punt de
+ser sobreescritos, canviats o destruïts, si es desitja. I per indicar que
+es desitgen aquests fitxers de respatller s'empra l'opció \-b. S'especifica
+com haurien de nomenar-se mitjançant l'opció \-V. En el cas
+que el nom del fitxer de respatller es doni amb el nom del
+fitxer estès amb un sufix, aquest sufix s'especifica amb
+l'opció \-S.
+.TP
+.B "\-b, \-\-backup"
+Fa còpies de respatller de fitxers que siguin a punt de
+ser sobreescritos o esborrats.
+.TP
+.BI "\-S " SUFIX ", \-\-suffix=" SUFIX
+Afegeix
+.I SUFIX
+a cada fitxer de respatller fet.
+Si aquesta opció no es dóna, s'empra el valor de la variable d'entorn
+.BR SIMPLE_BACKUP_SUFFIX .
+I si
+.B SIMPLE_BACKUP_SUFFIX
+no està definida, el valor predeterminat és `'.
+.TP
+.BI "\-V " MÈTODE ", \-\-version\-control=" MÈTODE
+.RS
+Especifica com els fitxers de respatller han de cridar-se. L'argument
+.I MÈTODE
+pot ser `numbered' (o `t'), `existing' (o `nil'), o `never' (o
+`simple').
+Si aquesta opció no es dóna, s'empra el valor de la variable d'entorn
+.BR VERSION_CONTROL .
+I si
+.B VERSION_CONTROL
+no està definida, el tipus predeterminat de còpia de respatller és
+`existing'.
+.PP
+Aquesta opció correspon a la variable de Emacs `version-control'.
+Els
+.IR MÈTODE s
+vàlids són (s'accepten abreviatures no ambigües):
+.TP
+.BR t ", " numbered
+Sempre fa còpies de respatller numerades.
+.TP
+.BR nil ", " existing
+Fa còpies de respatller numerades de fitxers que ja les tinguin,
+còpies simples dels altres.
+.TP
+.BR never ", " simple
+Sempre fa còpies de respatller simples.
+.RE
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió, i després
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+Els variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals. Per a la versió de GNU, les variables
+SIMPLE_BACKUP_SUFFIX i VERSION_CONTROL controlen com es nomenen els
+fitxers de respatller, segons s'ha descrit anteriorment.
+.SH "CONFORME A"
+POSIX 1003.2. No obstant això, POSIX 1003.2 (1996) no discuteix sobre
+enllaços tous.
+Els enllaços tous van ser introduïts per BSD, i no existeixen en
+sistemes System V release 3 (ni més antics).
+.SH "VEGEU TAMBÉ"
+.BR ls (1),
+.BR rm (1),
+.BR link (2),
+.BR lstat (2),
+.BR open (2),
+.BR readlink (2),
+.BR stat (2),
+.BR unlink (2)
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B ln
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

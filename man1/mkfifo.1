@@ -1,0 +1,65 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH MKFIFO 1 "Noviembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+mkfifo \- fa FIFOs (canonades amb nom)
+.SH SINOPSI
+.BI "mkfifo [" opcions "] " fitxer...
+.sp
+Opcions de POSIX:
+.BI "[\-m " mode ]
+.sp
+Opcions de GNU (en la forma més curta):
+.BI "[\-m " mode "] [\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B mkfifo
+cregui FIFOs (també anomenats "canonades amb nom") amb els noms de
+fitxer especificats.
+.PP
+Un "FIFO" és un tipus de fitxer especial que permet a processos
+independents comunicar-se. Un procés obre el fitxer FIFO per
+escriure, i un altre per llegir, després de la qual cosa les dades poden fluir com
+amb les canonades sense nom usuals en shells o on sigui.
+.PP
+Per omissió, els permisos dels FIFOs creats són 0666 (`a+rw') menys
+els bits posats a 1 en la umask.
+.SH OPCIONS
+.TP
+.BI "\-m " mode ", \-\-mode=" mode
+Estableix els permisos dels FIFOs creats a
+.IR mode ,
+que pot ser simbòlic com en
+.BR chmod (1)
+i empra la manera predeterminada com a punt de partida.
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Muestra en la salida estándar información sobre la versión, y luego
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2.
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B mkfifo
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

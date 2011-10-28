@@ -1,0 +1,591 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH LS 1 "Novembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+ls, dir, vdir \- llisten els continguts de directoris
+.SH SINOPSI
+.BI "ls [" opcions "] [" fitxer... ]
+.br
+.BI "dir [" fitxer... ]
+.br
+.BI "vdir [" fitxer... ]
+.sp
+Opcions de POSIX:
+.BI "[\-CFRacdilqrtu1]"
+.sp
+Opcions de GNU (en la forma més curta):
+.B [\-1abcdfghiklmnopqrstuvwxABCDFGHLNQRSUX]
+.BI "[\-w " cols ]
+.BI "[\-T " cols ]
+.BI "[\-I " patró ]
+.B "\-\-full\-time"
+.B [\-\-xou\-control\-chars]
+.BI "[\-\-block\-size=" grandària ]
+.B [\-\-format={long,verbose,commas,across,vertical,single\-column}]
+.B [\-\-sort={none,time,size,extension}]
+.B [\-\-time={atime,access,usi,ctime,status}]
+.B [\-\-color[={none,auto,always}]]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+El programa
+.B ls
+llista primer els seus arguments no directoris
+.IR fitxer ,
+i després per a cada argument directori tots els fitxers susceptibles
+de llistar-se continguts en aquest directori. Si no hi ha present cap
+argument a part de les opcions, se suposa un argument
+predeterminat `.' (el directori de treball).
+L'opció \-d fa que els directoris es tractin com a arguments no
+directoris; és a dir, com a fitxers normals.
+Un fitxer és susceptible de llistar-se quan el seu nom no comença amb
+`.' o quan es dóna l'opció \-a (o \-A, vegi més a baix).
+.PP
+Cadascuna de les llistes de fitxers (les de fitxers no directoris, i
+per a cada directori la llista de fitxers de dins) es classifica
+separadament segons la seqüència de classificació en la localització
+en curs. Quan es dóna l'opció \-l, cada llista es precedeix per
+una línia de sumari que dóna la grandària total de tots els fitxers en
+la llista, mesurats en semi-kilobytes (512 B).
+.PP
+La sortida és a la sortida estàndard, una entrada per cada línia, tret
+es demani una sortida multi-columna mitjançant l'opció \-C. No obstant
+això, per a la sortida en una terminal, no està definit si la sortida
+serà en una sola columna o en vàries. Les opcions \-1 i \-C es poden
+emprar per forçar la sortida en una o en diverses columnes,
+respectivament.
+.SH OPCIONS DE POSIX
+.TP
+.B "\-C"
+Llista els fitxers en columnes, ordenats verticalment.
+.TP
+.B "\-F"
+Afegeix després de cada nom de directori un `/', després de cada nom de
+FIFO un `|', i després de cada nom d'un executable un `'.
+.TP
+.B "\-R"
+Llesta recursivamente els subdirectoris oposats.
+.TP
+.B "\-a"
+Inclou en el llistat fitxers els noms dels quals comencin per `.'.
+.TP
+.B "\-c"
+Empra el temps de canvi d'estat en comptes del de modificació per a la
+classificació (amb \-t) o el llistat (amb \-l).
+.TP
+.B "\-d"
+Llesta noms de directoris com altres fitxers, en comptes de llistar els
+seus continguts.
+.TP
+.B "\-i"
+Precedeix la sortida per al fitxer pel nombre de sèrie del fitxer
+(nombre-í o nombre de node-í).
+.TP
+.B "\-l"
+Escriu (en format d'una sola columna) els permisos del fitxer, el
+nombre d'enllaços que té, el nom del propietari, el del grup
+al que pertany, la grandària (en bytes), una marca de temps, i el
+nom del fitxer.
+De forma predeterminada, la marca de temps que es mostra és la de
+l'última modificació; les opcions \-c i \-o seleccionen les altres dues
+que hi ha.
+Per a fitxers especials de dispositiu el camp de grandària es
+reemplaça comunament pels nombres de dispositiu major i menor.
+.TP
+.B "\-q"
+Imprimeix els caràcters no imprimibles que hi hagi en un nom de fitxer
+com a signes d'interrogació `?'. (Es permet que això sigui el
+predeterminat quan la sortida és una terminal.)
+.TP
+.B "\-r"
+Inverteix l'ordre de la classificació.
+.TP
+.B "\-t"
+Classifica per la marca de temps mostrada.
+.TP
+.B "\-o"
+Empra el temps d'últim accés en comptes del de modificació per a la
+classificació (amb \-t) o el llistat (amb \-l).
+.TP
+.B "\-1"
+Per a la sortida en una sola columna.
+.SH "DETALLS DE GNU"
+Si la sortida estàndard és una terminal, la sortida és en columnes
+(ordenades verticalment).
+.PP
+.B dir
+(també instal·lat com
+.BR d )
+és equivalent a `ls\ \-C\ \-b'; això és, els fitxers es llisten de
+forma predeterminada en columnes, ordenades verticalment.
+.B vdir
+(també instal·lat com
+.BR v )
+és equivalent a `ls\ \-l\ \-b'; això és, els fitxers es llisten de
+forma predeterminada en el format llarg.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-1, \-\-format=single\-column"
+Llista un fitxer per línia. Això és el predeterminadao quan la
+sortida estàndard no és una terminal.
+.TP
+.B "\-a, \-\-all"
+Llesta tots els fitxers en directoris, incloent tots els fitxers
+els noms dels quals comencin per `.'.
+.TP
+.B "\-b, \-\-fuita, \-\-quoting\-style=fuita"
+Mostra els caràcters no gràfics en noms de fitxers emprant
+seqüències de fuita alfabètiques i octals com les empleades en
+el llenguatge C. Aquesta opció és la mateixa que
+.B "\-Q"
+tret que no es delimintan els noms de fitxer per cometes dobles.
+.TP
+.B "\-c, \-\-time=ctime, \-\-time=status"
+Classifica els continguts del directori d'acord amb els temps de
+canvi d'estat dels fitxers (el `ctime' en el node-í). Si
+el format de llistat llarg s'està
+.RB "emprant (" \-l )
+mostra el temps de canvi d'estat en comptes del de modificació.
+.TP
+.B "\-d, \-\-directory"
+Llista noms de directoris com altres fitxers, en comptes de llistar els seus
+continguts.
+.TP
+.B "\-f"
+No ordena els continguts del directori; els llista en l'ordre en què
+estiguin emmagatzemats en el disc.
+També activa
+.B \-a
+
+i .B \-O
+i desactiva
+.BR \-l ,
+.BR \-\-color ,
+.B \-s
+i
+.B \-t
+si es van especificar abans
+de .BR \-f .
+.TP
+.B \-g
+No fa gens; per compatibilitat amb altres versions d'Unix.
+.TP
+.B "\-h, \-\-human\-readable"
+Afegeix una lletra indicativa de grandària, tal com
+.B M
+per a megaoctets binaris (`mebibytes'), a cada grandària.
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-i, \-\-inode"
+Mostra el nombre de node-í (també cridat el nombre de sèrie del
+fitxer o el nombre índex o nombre-í) de cada fitxer a l'esquerra
+del seu nom. (Aquest nombre identifica de forma inequívoca a
+cada fitxer dins d'un sistema de fitxers particular.)
+.TP
+.B "\-k, \-\-kilobytes"
+Si s'estan llistant les grandàries de fitxers, els mostra en kilobytes.
+.TP
+.B "\-l, \-\-format=long, \-\-format=verbose"
+A més del nom de cada fitxer, mostra el tipus del fitxer, els
+permisos, el nombre d'enllaços durs, el nom del propietari, el del
+grup al que pertany, la grandària en bytes, i la marca de temps
+(el temps de modificació tret que se seleccioni un altre). Per a
+fitxers amb un temps de més de 6 mesos o de més d'1 hora en
+el futur, la marca de temps conté l'any en lloc de l'hora del dia.
+
+Per a cada directori que es llisti, escriu abans dels fitxers una
+línia
+`total
+.IR blocs "', on " blocs " és l'espai de disc total usat per tots"
+els fitxers en aquest directori. Per omissió, s'empren blocs
+de 1024 bytes; si la variable d'entorn
+.B POSIXLY_CORRECT
+està definida, s'usen blocs de 512 bytes (tret que s'hagi donat
+l'opció
+.BR \-k ).
+Els
+.I blocs
+computats expliquen cada enllaç dur separadament; això és
+discutiblement una deficiència.
+
+Els permisos llistats són similars a especificacions de
+manera simbòlica, però
+.B ls
+combina diversos bits en el tercer caràcter de cada conjunt de permisos.
+.RS
+.TP
+.B s
+Si estan activats tant el bit SETUID o SETGID com el corresponent d'executable.
+
+.TP
+.B S
+Si està activat el bit SETUID o SETGID però no el corresponent d'executable.
+
+.TP
+.B t
+Si tant el bit pegajoso (STI) com l'executable per a `uns altres' estan
+activats.
+.TP
+.B T
+Si el bit STI o pegajoso està activat però l'executable per a `uns altres'
+no ho està.
+.TP
+.B x
+Si el bit executable està activat i no s'aplica gens de l'anterior.
+.TP
+.B \-
+Una altra cosa (no hi ha permís).
+.RE
+.TP
+.B "\-m, \-\-format=commas"
+Llista els fitxers horitzontalment, amb punts com càpiguen en
+cada línia, separats uns d'uns altres per una coma i un espai.
+.TP
+.B "\-n, \-\-numeric\-uid\-gid"
+Llista els UID i GID numèrics en comptes dels noms.
+.TP
+.B \-o
+Produeix llistats de directori en el format llarg, però no mostra
+informació de grup, com l'opció \-l antiga. És equivalent a
+emprar
+.BR "\-\-format=long \-\-no\-group" .
+Aquesta opció es proporciona per compatibilitat amb altres versions de
+.BR ls .
+.TP
+.B "\-p, \-\-file\-type, \-\-indicator\-style=file\-type"
+Afegeix un caràcter a cada nom de fitxer indicant el tipus del
+fitxer. Això és com
+.B \-F
+excepte que els executables no es marquen.
+(De fet, fileutils-4.0 tracta l'opció --file-type com --classify.)
+.TP
+.B "\-q, \-\-hide\-control\-chars"
+Mostra signes d'interrogació `?' en comptes de caràcters no gràfics
+en noms de fitxers. Això és el comportament predeterminat.
+.TP
+.B "\-r, \-\-reverse"
+Classifica els continguts de directoris en ordre invers.
+.TP
+.B "\-s, \-\-size"
+Mostra la grandària de cada fitxer en blocs de 1024 bytes a l'esquerra
+del nom. Si la variable d'entorn
+.B POSIXLY_CORRECT
+està definida, s'empren en el seu lloc blocs de 512 bytes, tret que
+s'hagi donat l'opció
+.BR \-k .
+.TP
+.B "\-t, \-\-sort=time"
+Classifica pel temps de modificació (el `mtime' en el node-í) en comptes d'alfabèticament,
+amb els fitxers més recents en primer lloc.
+.TP
+.B "\-u, \-\-time=atime, \-\-time=access, \-\-time=usi"
+Classifica els continguts dels directoris d'acord amb els temps
+d'últim accés dels fitxers en comptes dels de modificació (el
+`atime' en el node-í). Si s'està emprant el format de llistat
+llarg, mostra el temps d'últim accés en comptes del de modificació.
+.TP
+.B "\-v"
+Classifica els continguts dels directoris d'acord a la versió dels
+fitxers. Això té en compte el fet que els noms dels fitxers
+inclouen amb freqüència índexs o nombres de versió. Les funcions d'ordenació
+estàndards no produeixen normalment l'ordre que la gent espera
+ja que les comparacions es fan caràcter a caràcter. L'ordenació per
+versió soluciona aquest problema, sent especialment útil quan es
+recorren directoris que contenen molts fitxers amb índexs/nombre
+de versió en els seus noms. Per exemple:
+
+.nf
+> ls -1 > ls -1v
+foo.zml-1.gz foo.zml-1.gz
+foo.zml-100.gz foo.zml-12.gz
+foo.zml-12.gz foo.zml-25.gz
+foo.zml-25.gz foo.zml-100.gz
+.fi
+
+També dese explica que les parts numèriques amb zeros a l'esquerra es consideren
+com a fraccionàries:
+
+.nf
+     > ls -1            > ls -1v
+     abc-1.007.tgz      abc-1.007.tgz
+     abc-1.012b.tgz     abc-1.01a.tgz
+     abc-1.01a.tgz      abc-1.012b.tgz
+.fi
+
+(Nova en file\%utils-4.0.)
+.TP
+.BI "\-w, \-\-width " cols
+Assumeix que la pantalla té
+.I cols
+columnes d'ample. El valor predeterminat es pren del controlador de
+terminal si és possible; si no, s'empra la variable d'ambient
+.B COLUMNS
+si està definida; d'una altra manera el valor predeterminat és 80.
+.TP
+.B "\-x, \-\-format=across, \-\-format=horitzontal"
+Llista els fitxers en columnes, ordenats horitzontalment.
+.TP
+.B "\-A, \-\-almost\-all"
+Llesta tots els fitxers en els directoris, excepte `.' i `..'.
+.TP
+.B "\-B, \-\-ignore\-backups"
+No llista els fitxers que acabin en `', tret que es donin els seus
+noms en la línia d'ordres com a arguments.
+.TP
+.B "\-C, \-\-format=vertical"
+Llesta fitxers en columnes, ordenades verticalment. Això és el
+predeterminat si la sortida estàndard és una terminal. Sempre és el
+comportament predeterminat també para
+.BR dir " i " d .
+.TP
+.B "\-D, \-\-dired"
+Amb el format de llistat llarg
+.RB ( \-l ),
+imprimeix una línia addicional després de la sortida principal:
+.br
+.B //DIRED//
+.I COM1 FI1 COM2 FI2 ...
+.br
+
+Els
+.IR COMn " i " FINn
+són sencers positius que guarden la posició en bytes del Començament i
+el Final respectivament de cada nom de fitxer en la sortida. Això
+fa més fàcil a Emacs trobar els noms, fins i tot si contenen
+caràcters inusuals com a espais o noves-línies, sense haver de caminar
+buscant.
+
+Si els directoris s'estan llistant recursivamente
+.RB ( \-R ),
+mostra una línia similar després de cada subdirectori:
+.br
+.B //SUBDIRED//
+.I COM1 FI1 ...
+.TP
+.B "\-F, \-\-classify, \-\-indicator\-style=classify"
+Afegeix un caràcter a cada nom de fitxer indicant el tipus del
+fitxer. Per a fitxers regulars que siguin executables, afegeix un
+`'. Els indicadors de tipus de fitxers són `/' per a directoris,
+`@' per a enllaços simbòlics, `|' per FIFOs, `=' per a connectors, i
+gens per a fitxers regulars.
+.TP
+.B "\-G, \-\-no\-group"
+Inhibeix la sortida d'informació de grup en un llistat de directori
+en format llarg.
+.TP
+.B "\-H, \-\-si"
+Fa el mateix que
+.B \-h
+però usa les unitats oficials del SI (amb potències de 1000 en comptes de
+1024, per la qual cosa M significa 1000000 en lloc de 1048576).
+(Nova en fileutils-4.0.)
+.TP
+.BI "\-I, \-\-ignore=" patró
+No llista els fitxers els noms dels quals concordin amb el patró del shell
+.I patró
+(això no és una expressió regular) tret que es donin en la línia
+d'ordres com a arguments. Com en el shell, un `.' inicial en un nom
+de fitxer no concorda amb un comodí al principi de
+.IR patró .
+.TP
+.B "\-L, \-\-dereference"
+Llista la informació del fitxer corresponent a un enllaç simbòlic
+en lloc de la del mateix enllaç.
+.TP
+.B "\-N, \-\-literal"
+No fa gens amb els caràcters no gràfics en noms de fitxers;
+els mostra en la sortida tal qual.
+.TP
+.B "\-Q, \-\-quote\-name, \-\-quoting\-style=c"
+Tanca els noms de fitxers entre cometes dobles i mostra els
+caràcters no gràfics dels seus noms com en el llenguatge C.
+.TP
+.B "\-R, \-\-recursive"
+Llista els continguts de tots els directoris recursivamente.
+.TP
+.B "\-S, \-\-sort=size"
+Classifica els continguts dels directoris per les grandàries dels
+fitxers en comptes d'alfabèticament, amb els fitxers més grans en
+primer lloc.
+.TP
+.BI "\-T, \-\-tabsize=" cols
+Assumeix que cada parada de tabulació està
+a .I cols
+columnes d'ample; el valor predeterminat és 8.
+.B ls
+empra tabuladors on és possible en la sortida, per eficiència. Si
+.I cols
+és zero, no usa tabuladors per res.
+.TP
+.B "\-U, \-\-sort=none"
+No classifica els continguts de directoris; els llista en l'ordre en què
+estiguin emmagatzemats en el disc. (La diferència entri
+.B \-U
+i
+.B \-f
+és que el primer no desactiva o activa opcions.) Això és
+especialment d'utilitat quan es llistin directoris molt grans, ja que
+al no efectuar cap ordenació pot anar bastant més
+ràpid.
+.TP
+.B "\-X, \-\-sort=extension"
+Classifica els continguts del directori alfabèticament per les
+extensions dels fitxers (caràcters després de l'últim `.'); els
+fitxers sense extensió es posen en primer lloc.
+.TP
+.BI "\-\-block\-size=" grandària
+Mostra les grandàries en blocs
+de .I grandària
+bytes.
+(Nova en file\%utils-4.0.)
+.TP
+.BI "\-\-color[=" quan ]
+Especifica si emprar color per distingir tipus de fitxers. Els
+colors s'especifiquen mitjançant la variable d'entorn LS_COLORS. Per a
+informació sobre com definir aquesta variable, consulti
+.BR dircolors (1).
+.I quan
+pot ometre's, o ser un de:
+.RS
+.TP
+.B none
+No emprar color en absolut. Això és el predeterminat.
+.TP
+.B auto
+Emprar color solament si la sortida estàndard és una terminal.
+.TP
+.B always
+Emprar color sempre. Especificar
+.B \-\-color
+i no
+.I quan
+és equivalent a
+.BR "\-\-color=always" .
+.RE
+.TP
+.B "\-\-full\-time"
+Llesta els temps al complet, en comptes d'emprar els mètodes
+heurístics per a les abreviatures normals. El format és el mateix que
+el predeterminat de
+.BR dóna't (1);
+no és possible canviar això, però un pot extreure la cadena de data amb
+.BR cut (1)
+i després passar el resultat a `dóna't \-d'.
+
+Això és majorment d'utilitat perquè la sortida de temps inclou els
+segons. (Els sistemes de fitxers d'Unix emmagatzemen les marques de
+temps solament al segon més proper, de manera que aquesta opció
+mostra tota la informació que hi ha.) Per exemple, això pot ajudar
+quan un té un Makefile que no estigui regenerant correctament els
+fitxers.
+.TP
+.BI "\-\-quoting\-style=" word
+Usa l'estil
+.I word
+per entrecomillar els noms de sortida. El paràmetre
+.I word
+ha de ser un dels següents:
+.RS
+.TP
+.B literal
+Mostra els noms "tal qual". Aquest és el comportament per omissió de
+.BR ls .
+.TP
+.B shell
+Entrecomilla els noms per a l'intèrpret d'ordres si aquests contenen
+metacaracteres de l'intèrpret d'ordres o si poden produir una sortida
+ambigüa.
+.TP
+.B "shell\-always"
+Entrecomilla els noms per a l'intèrpret d'ordres, encara que quan,
+normalment, no necessitessin entrecomillarse.
+.TP
+.B c
+Entrecomilla els noms com si anessin una cadena en C. Això és el mateix
+que l'opció
+.BR "\-Q" .
+.TP
+.B escapi
+Entrecomilla com amb
+.I c
+però omet les cometes dobles que delimiten el nom. Això és el mateix que
+l'opció
+.BR "\-b" .
+.PD
+.PP
+Es pot especificar un valor per omissió per a aquesta opció amb la variable
+d'entorn QUOTING_STYLE. (Vegeu
+.B ENTORN
+més a baix.)
+.RE
+.TP
+.B "\-\-xou\-control\-chars"
+Mostra els caràcters no gràfics "tal qual" en els noms dels
+fitxers. Això és el que sol ocórrer tret que la sortida sigui
+una terminal i el programa sigui
+.BR ls .
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió, i després
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+La variable POSIXLY_CORRECT determina l'elecció de la unitat. Si no
+està definida, llavors la variable TABSIZE determina el nombre
+de caràcters per cada parada de tabulador.
+La variable COLUMNS (quan conté la representació d'un enter en
+base 10) determina l'amplària de columna de sortida (per a l'ocupació amb
+l'opció \-C). Els noms de fitxers no han de ser truncats perquè
+càpiguen en una sortida multi-columna.
+.PP
+Les variables LANG, LC_ALL, LC_COLLATE, LC_CTYPE, LC_MESSAGES i
+LC_TIME tenen els significats usuals.
+La variable TZ dóna el fus horari per a cadenes de temps escrites per
+.BR ls .
+La variable LS_COLORS s'empra per especificar els colors emprats.
+.PP
+La variable QUOTING_STYLE s'usa per especificar el valor per omissió per a l'opció
+
+.BR "\-\-quoting\-style" .
+El seu valor actual per omissió és
+.BR literal ,
+encara que els autors han advertit que podria canviar a
+.B shell
+en alguna versió futura de
+.BR ls .
+.SH FALLADES
+En sistemes BSD, l'opció
+.I \-s
+dóna grandàries que són la meitat dels valors correctes per a fitxers que
+estan muntats per NFS des de sistemes HP-UX. En sistemes HP-UX, dóna
+grandàries que són el doble dels valors correctes per a fitxers que
+estan muntats per NFS des de sistemes BSD. Això és a causa d'un defecte
+d'HP-UX; també afecta al programa
+.B ls
+d'HP-UX.
+.SH "CONFORME A"
+POSIX 1003.2.
+.SH "VEGEU TAMBÉ"
+.BR dircolors (1)
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B ls
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

@@ -1,0 +1,111 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH CHOWN 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+chown \- canvia l'usuari i grup propietaris de fitxers
+.SH SINOPSI
+.BI "chown [" opcions "] " usuari "[:" grup "] " fitxer...
+.sp
+Opcions de POSIX:
+.B [\-R]
+.sp
+Opcions de GNU (en la forma més curta):
+.B "[\-cfhvR] [\-\-dereference]"
+.BI [\-\-reference= rfile ]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B chown
+canvia el propietari de cada \fIfitxer\fP, usuari o grup, segons el
+primer argument que no sigui una opció, el qual s'interpreta com
+segueix.
+Si només es dóna un nom d'usuari (o UID numèric), llavors aquest
+usuari es converteix en el propietari de cada fitxer donat i el
+grup al que pertany el fitxer no canvia. Si al nom d'usuari
+segueix un signe de dos punts i un nom de grup (o GID
+numèric), sense espais entre ells, llavors també es canvia el
+grup al que pertany cada fitxer. 
+.SH "DETALLS DE GNU"
+La versió de GNU permet un punt `.' en comptes de dos punts `:'
+(imitant la versió de BSD). [Això no va ser permès per POSIX posat
+que un punt és un caràcter vàlid en un nom d'usuari.]
+Si al nom d'usuari segueix un signe de dos punts o un sol punt
+però després no apareix un nom de grup o GID, llavors aquest usuari
+es converteix en el propietari dels fitxers i el grup dels
+fitxers es canvia al primari d'aquest usuari. Si es dóna el signe de
+dos punts o el punt i el nom de grup o GID, però s'omet el
+nom d'usuari, solament es canvia el grup dels fitxers; en
+aquest cas,
+.B chown
+fa el mateix que
+.BR chgrp .
+.SH "OPCIONS DE POSIX"
+.TP
+.B "\-R"
+Canvia recursivamente el propietari de directoris i els seus continguts.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-c, \-\-changes"
+Mostra un missatge on esmenta solament aquells fitxers el
+propietari dels quals canvia realment.
+.TP
+.B "\-f, \-\-silent, \-\-quiet"
+No mostra missatges d'error sobre fitxers el propietari dels quals no pot
+canviar-se.
+.TP
+.B "\-h, \-\-no\-dereference"
+Actua sobre enllaços simbòlics pròpiament en comptes de sobre el que
+apuntin. Disponible solament si el sistema proporciona la primitiva
+.BR lchown .
+.TP
+.B "\-v, \-\-verbose"
+Describe prolijamente la acción efectuada (o no) para cada
+.IR fichero .
+.TP
+.B "\-R, \-\-recursive"
+Canvia recursivamente la propietariedad de directoris i els seus continguts.
+.TP
+.B \-\-dereference
+Canvia la propietat de la destinació d'un enllaç simbòlic en lloc de la del
+propi enllaç simbòlic.
+(Nova en file\%utils-4.0.)
+.TP
+.BI "\-\-reference=" "rfile"
+(Nova en file\%utils-4.0.)
+Canvia la propietat de
+.I file
+a la del fitxer
+.IR rfile .
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2 no permet l'ocupació del punt com a separador entre el
+nom d'usuari i el de grup.
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B chown
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

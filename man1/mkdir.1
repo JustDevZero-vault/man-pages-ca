@@ -1,0 +1,73 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH MKDIR 1 "Noviembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+mkdir \- crea directoris
+.SH SINOPSI
+.BI "mkdir [" opcions "] " directori...
+.sp
+Opcions de POSIX:
+.BI "[\-p] [\-m " mode ]
+.sp
+Opcions de GNU (en la forma més curta):
+.BI "[\-p] [\-m " mode "] [\-\-verbose]"
+.BI "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B mkdir
+crea directoris amb els noms especificats.
+.PP
+De forma predeterminada, els permisos dels directoris creats són 0777
+(`a+rwx') menys els bits posats a 1 en la umask.
+.SH OPCIONS
+.TP
+.BI "\-m " mode ", \-\-mode=" mode
+Estableix els permisos dels directoris creats a
+.IR mode ,
+que pot ser simbòlic com en
+.BR chmod (1)
+i llavors empra la manera predeterminada com el punt de partida.
+.TP
+.B "\-p, \-\-parents"
+Crea els directoris pare que faltin per a cada argument
+.IR directori .
+Els permisos per als directoris pare es posen a la umask modificada 
+per `u+rwx'.
+No fa cas d'arguments que corresponguin a directoris
+existents. (Així, si existeix un directori /a, llavors `mkdir /a' és
+un error, però `mkdir \-p /a' no ho és.)
+.TP
+.B "\-\-verbose"
+Mostra un missatge per a cada directori creat. Això és més útil amb
+.BR "\-\-parents" .
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió, i després
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2.
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B mkdir
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

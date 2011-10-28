@@ -1,0 +1,274 @@
+.\" Copyright Andries Brouwer, 2000
+.\"
+.\" This page is distributed under GPL.
+.\" Some fragments of text came from the time-1.7 info file.
+.\" Inspired by kromJx@crosswinds.net.
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH TIME 1 "11 desembre 2000" "" ""
+.SH NOM
+time \- temporitza una ordre senzilla o retorna la utilització de recursos
+.SH SINOPSI
+.BI "time [" opcions "] " ordre " [" arguments... "] "
+.SH DESCRIPCIÓ
+L'ordre
+.B time
+executa el programa
+.I ordre
+amb els arguments subministrats. Quan
+.I ordre
+finalitza,
+.B time
+escriu un missatge en la sortida estàndard retornant estadístiques
+temporals sobre l'execució d'aquest programa.
+Aquestes estadístiques estan compostes per (i) el temps real transcorregut
+entre la trucada i la finalització de
+.I ordre ,
+(ii) el temps d'usuari del processador
+(la suma dels valors
+.I tms_utime
+i
+.I tms_cutime
+en
+un .I "struct tms"
+tal com retorna
+.BR times (2)),
+i (iii) el temps de sistema del processador (la suma dels valors
+.I tms_stime
+i
+.I tms_cstime
+en
+un .I "struct tms"
+tal com retorna
+.BR times (2)).
+.SH OPCIONS
+.TP
+.B \-p
+Quan s'usi la localització POSIX, usar el format tradicional precís
+.br
+.in +5
+"real %f\enuser %f\ensys %f\en"
+.in -5
+.br
+(amb nombres en segons)
+on el nombre de decimals en la sortida de %f està sense especificar
+però és suficient per expressar la precisió del flanc de rellotge, i almenys un.
+.SH ENTORN
+S'utilitzen les variables LANG, LC_ALL, LC_CTYPE, LC_MESSAGES, LC_NUMERIC,
+NLSPATH i PATH. L'última per buscar
+.IR ordre .
+La resta per al text i el format de la sortida.
+.SH "ESTAT DE SORTIDA"
+Si es va invocar
+.I ordre
+, l'estat de sortida serà el de
+.IR ordre .
+En un altre cas, és 127 si
+.I ordre
+no es va poder trobar, 126 si es va poder trobar però no va poder invocar-se,
+i algun altre valor diferent de zero (1-125) si va ocórrer algun un altre error.
+.SH "VEGEU TAMBÉ"
+.BR times (2),
+.sp 2
+.SH "VERSIÓ GNU"
+A continuació, una descripció de la versió 1.7 de GNU de
+.BR time .
+Malgrat el nom de la utilitat, GNU fa que retorni gran quantitat d'informació
+útil, no només sobre el temps utilitzat, sinó a més sobre
+altres recursos com a memòria, cridades I/S o IPC (si estan disponibles).
+La sortida es formata utilitzant una cadena de format que es pot
+especificar utilitzant l'opció \-f o la variable d'entorn TIME.
+.LP
+La cadena de format per defecte és
+.br
+.in +3
+%Uusuario %Ssistema %Etranscurrido %PCPU (%Xtexto+%Ddatos %Mmax)k
+.br
+%Ientradas+%Osalidas (%Fprincipal+%Rmenor)mancades de pàgina %Wintercambios
+.br
+.in -3
+.LP
+Quan s'indica l'opció \-p, s'usa el format de sortida transportable
+.br
+.in +3
+real %i
+.br
+user %O
+.br
+sys %S
+.br
+.in -3
+.SS "La cadena de format"
+El format s'interpreta en la manera usual de printf.
+Els caràcters habituals es copien directament, tabulació,
+nova línia i barra invertida s'escapen usant \et, \en i \i\i,
+el signe de percentatge es representa per %%, i d'una altra manera %
+indica una conversió. El programa
+.B time
+afegirà sempre una línia final.
+A continuació es presenten les conversions. Totes les utilitzades per
+.BR tcsh (1)
+estan recolzades
+.LP
+.B "Temps"
+.TP
+.B %I
+Temps real transcorregut (en [hores:]minuts:segons).
+.TP
+.B %i
+(No apareix en tcsh.) Temps real transcorregut (en segons).
+.TP
+.B %S
+Nombre total de segons de CPU que el procés va consumir en manera de nucli.
+.TP
+.B %O
+Nombre total de segons de CPU que el procés va consumir en manera d'usuari.
+.TP
+.B %P
+Percentatge de CPU que va rebre aquest treball, calculat com (%O + %S) / %I.
+.LP
+.B "Memòria"
+.TP
+.B %M
+Conjunt màxim resident del procés durant el seu temps de vida, en KBytes.
+.TP
+.B %t
+(No apareix en tsch.) Grandària aproximada del conjunt resident del procés, en KBytes.
+.TP
+.B %K
+Uso de memòria total aproximat (dades+pila+text) del procés, en KBytes.
+.TP
+.B %D
+Grandària aproximada de l'àrea de dades no compartida del procés, en KBytes.
+.TP
+.B %p
+(No apareix en tsch.) Grandària aproximada de l'espai de pila no compartit del procés,
+en KBytes.
+.TP
+.B %X
+Grandària aproximada de l'espai de text compartit del procés, en KBytes.
+.TP
+.B %Z
+(No apareix en tsch.) Grandària de pàgina del sistema, en KBytes.
+Això és una constant del sistema, però varia entre un sistema i un altre.
+.TP
+.B %F
+Nombre de faltes de pàgina principals, que van ocórrer mentre el procés s'executava.
+Aquestes són mancades en les quals la pàgina ha de ser llegida des de disc.
+.TP
+.B %R
+Nombre de faltes de pàgina menors o recuperables.
+Aquestes són mancades per a pàgines que no són vàlides però que no han estat
+reclamades encara per altres pàgines virtuals. D'aquesta manera, les dades
+a la pàgina són encara vàlids, però les taules de sistema han d'actualitzar-se.
+.TP
+.B %W
+Nombre de vegades que el procés va ser intercanviat cap a fora de la memòria principal.
+.TP
+.B %c
+Nombre de vegades que el procés va ser intercanviat de context involuntàriament
+(perquè finalitzava la porció de temps).
+.TP
+.B %w
+Nombre d'esperes: vegades que el programa va ser intercanviat de context voluntàriament,
+per exemple, mentre s'espera al fet que es completi una operació d'I/S.
+.LP
+.B "I/S"
+.TP
+.B %I
+Nombre d'entrades al sistema d'arxius pel procés.
+.TP
+.B %O
+Nombre de sortides al sistema d'arxius pel procés.
+.TP
+.B %r
+Nombre de missatges de connexió rebuts pel procés.
+.TP
+.B %s
+Nombre de missatges de connexió enviats pel procés.
+.TP
+.B %k
+Nombre de senyals lliurats al procés.
+.TP
+.B %C
+(No apareix en tcsh.) Nom i arguments en línia d'ordres de l'ordre temporitzada.
+.TP
+.B %x
+(No apareix en tcsh.) Estat de sortida de l'ordre.
+.SH "OPCIONS GNU"
+.TP
+.BI "\-f " FORMAT ", \-\-format=" FORMAT
+Especificar el format de sortida, possiblement redefinint el format
+especificat en la variable d'entorn TIME.
+.TP
+.B "\-p, \-\-portability"
+Usar el format de sortida transportable.
+.TP
+.BI "\-o " FITXER ", \-\-output=" FITXER
+No enviar els resultats a stderr, sinó sobreescribir el fitxer especificat.
+.TP
+.B "\-a, \-\-append"
+(Usat en conjunció amb \-o.) No sobreescribir, sinó afegir al final.
+.TP
+.B "\-v, \-\-verbose"
+Ofereix una sortida detallada sobretot el que el programa coneix.
+.SH "OPCIONS GNU ESTÀNDARD"
+.TP
+.B "\-\-help"
+Imprimeix un missatge d'ús en la sortida estàndard i acaba satisfactòriament.
+.TP
+.B "\-V, \-\-version"
+Imprimeix la informació sobre la versió en la sortida estàndard i acaba satisfactòriament.
+.TP
+.B "\-\-"
+Acabar la llista d'opcions.
+.SH FALLADES
+No tots els recursos són mesurats per totes les versions d'Unix,
+de manera que alguns valors poden ser retornats com zero.
+La selecció present va ser majorment inspirada per les dades
+subministrades per 4.2 o 4.3BSD.
+.LP
+La versió 1.7 de GNU d'time encara no està localitzada.
+De manera que no implementa els requisits de POSIX.
+.LP
+La variable d'entorn TIME no va ser triada correctament.
+No és inusual en sistemes com autoconf o make usar variables
+d'entorn amb el nom d'una utilitat per reemplaçar la utilitat
+a usar. Usos com MORE o TIME per a opcions a programes (en lloc de
+noms de ruta a programes) tendeix a portar a dificultats.
+.LP
+Sembla desafortunat que \-o sobreescriba en lloc d'afegir al final.
+(Això és, l'opció per defecte hauria de ser \-a.)
+.LP
+Suggeriments per correu i informe de fallades de
+.B time
+de GNU a
+.br
+.I bug-utils@prep.ai.mit.edu
+.br
+Per favor, incluyase la versió de
+.B time ,
+que pots obtenir executant
+.br
+.I time --version
+.br
+i el sistema operatiu
+i el compilador de C utilitzat.
+.SH "VEGEU TAMBÉ"
+.BR tcsh (1),
+.BR times (2),
+.BR wait3 (2)
+.SH AUTORS
+.TP
+.IP "David Keppel"
+Versió original
+.IP "David MacKenzie"
+POSIXización, autoconfiscación, GNU getoptización,
+documentació, altres correciones de fallades i millores.
+.IP "Arne Henrik Juul"
+Va ajudar a la portabilitat
+.IP "Francois Pinard"
+Va ajudar a la portabilitat
+.IP "Daniel Ripoll Osma"
+Va realitzar la traducció de la versió 1.55

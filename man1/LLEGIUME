@@ -1,0 +1,22 @@
+En la seva saviesa, RMS (Richard Stallman) va decidir que la gent no
+necessita pàgines del manual posat que poden usar el bonic
+sistema Info de GNU. Desafortunadament, tothom que conec
+prefereix en gran mesurada pàgines del manual.
+
+ja que GNU no manté de forma activa les pàgines del manual i
+insereix text a cada pàgina de manual que ja té dient que
+vostè no hauria d'estar llegint-les, sembla ser que és necessari un
+manteniment extern de les pàgines del manual per a les utilitats
+de GNU.
+
+Les pàgines del manual de fileutils-3.16 que es troben aquí
+deriven de les de fileutils-3.16-man-0.4.tar.gz (realitzades per
+Ragnar Hojland Espinosa i A. Wik i que podem trobar en
+ftp://mail1.bet1.puv.fi/incoming/), afegint informació sobre el que
+diu POSIX respecte d'aquestes utilitats. Això és molt útil si un
+ha d'escriure guions que hagin de ser transportables.
+
+També pot trobar aquí una pàgina de manual time.1 escrita
+per kromjx@crosswinds.net.
+
+Andries

@@ -1,0 +1,128 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH MKNOD 1 "Novembre de 1998" "GNU fileutils 4.0"
+.SH NOM
+mknod \- crea fitxers especials de blocs o caràcters
+.SH SINOPSI
+.BI "mknod [" opcions "] " nomeni " {bc} " "major menor"
+.br
+.BI "mknod [" opcions "] " nomeni " p"
+.sp
+Opcions de GNU (en la forma més curta):
+.BI "[\-m " manera "] [\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B mknod
+crea un FIFO (canonada amb nom), un fitxer especial de blocs, o
+un fitxer especial de caràcters, amb
+el .I nom
+especificat.
+.PP
+Un fitxer especial és una tripleta (booleà, sencer, sencer)
+emmagatzemat en el sistema de fitxers.
+El valor lògic escull entre fitxer especial de caràcters i fitxer
+especial de bloc. Els dos enters són els nombres de dispositiu
+major i menor.
+.PP
+Així, un fitxer especial gairebé no ocupa lloc en el disc, i s'empra
+només per a la comunicació amb el sistema operatiu, no per a
+emmagatzematge de dades. Sovint els fitxers especials es refereixen
+a dispositius físics (disc, cinta, terminal, impressora) o a
+serveis del sistema operatiu (dev/null, /dev/random).
+.PP
+Els fitxers especials de bloc són dispositius similars a discos
+(on es pot accedir a les dades donat un nombre de bloc, i
+p. ex. té sentit tenir un caché de blocs).
+Tots els altres dispositius són fitxers especials de caràcters.
+(Fa temps la distinció era diferent: la I/S a un fitxer especial
+de caràcters seria sense búfer, i a un fitxer especial de blocs, amb
+búfer.)
+.PP
+L'ordre
+.B mknod
+és la que crea fitxers d'aquest tipus.
+.PP
+L'argument que segueix a
+.I nom
+especifica el tipus de fitxer a construir:
+.RS
+.TP
+.B p
+per un FIFO
+.TP
+.B b
+per a un fitxer especial de blocs (amb búfer)
+.TP
+.B c
+per a un fitxer especial de caràcters (sense búferes)
+.RE
+.PP
+La versió de GNU de
+.B mknod
+permet que
+.B o
+(`unbuffered') sigui un sinònim de
+.BR c .
+.PP
+Quan es construeix un fitxer especial de blocs o caràcters, cal
+donar després del tipus del fitxer els nombres de dispositiu major i
+menor (en base deu, o en octal amb un 0 inicial; la versió de GNU
+també permet en hexadecimal amb 0x inicial).
+Per omissió, els permisos dels fitxers creats són 0666 (`a+rw') menys
+els bits posats a 1 en la umask.
+.SH OPCIONS
+.TP
+.BI "\-m " manera ", \-\-mode=" manera
+Estableix els permisos dels fitxers creats a
+.IR manera ,
+que és simbòlic com en
+.BR chmod (1)
+i empra la manera predeterminada com a punt de partida.
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb estat d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió, i després
+acaba amb estat d'èxit.
+.TP
+.B "\-\-"
+Acaba amb la llista d'opcions.
+.SH ENTORN
+Els variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX no descriu aquesta ordre posat que no és transportable. i
+recomana emprar
+.BR mkfifo (1)
+per fer FIFOs.
+SVID té una ordre
+.I /etc/mknod
+amb la sintaxi d'a dalt, però sense l'opció de manera.
+.SH OBSERVACIONS
+En un sistema Linux (versió 1.3.22 o més nova) el fitxer
+.I /usr/src/linux/Documentation/devices.tex
+conté una llista de dispositius amb el seu nom, tipus i nombres major
+i menor.
+.LP
+La present pàgina descriu
+.B mknod
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.
+.SH "VEGEU TAMBÉ"
+.BR chmod (1),
+.BR mkfifo (1),
+.BR mknod (2).
+
+

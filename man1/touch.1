@@ -1,0 +1,167 @@
+.\" -*- nroff -*-
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH TOUCH 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+touch \- canvia la data d'un arxiu.
+.SH SINOPSI
+.B touch
+.BI "[\-acm][\-r " fitxer_referencia "|\-t " data "] " fitxer...
+.sp
+Versió en desús:
+.br
+.B touch
+.BI "[\-acm][" ugly_time "] " fitxer...
+.sp
+Versió GNU:
+.br
+.B touch
+.BI "[\-acfm] [\-r " fitxer "] [\-t " fechadecimal ]
+.BI "[\-d " time "] [\-\-time={atime,access,use,mtime,modify}]"
+.BI "[\-\-date=" fecha "] [\-\-reference=" fitxer ]
+.BI "[\-\-no\-create] [\-\-help] [\-\-version] [\-\-] " fitxer...
+.SH DESCRIPCIÓ
+.B touch
+canvia la data d'accés i/o modificació del fitxer especificat
+.IR file .
+Les dates a canviar són modificades a la data actual, a menys q l'opció
+\-r sigui especificada, en aquest cas és canviada
+a la data corresponent del fitxer
+.IR fitxer_referencia ,
+o l'opció \-t sigui especificada, en aquest cas és canviada a l'especificada
+.IR time .
+Ambdues dates són canviades quan cap o ambdues de les opcions \-a i \-m
+siguin donades. Solament la data d'accés o modificació és canviada quan una
+de les opcions \-a i \-m és donada. Si el fitxer no existia, és creat (com
+un fitxer vacio amb manera 0666, modificat per umask), tret que l'opció \-c
+sigui donada.
+.SH "OPCIONS POSIX"
+.TP
+.B \-a
+Canvia la data d'accés de
+.IR fitxer .
+.TP
+.B \-c
+No crea 
+.IR fitxer .
+.TP
+.B \-m
+Canvia la data de modificació de
+.IR fitxer .
+.TP
+.BI "\-r " fitxer_referencia
+Utilitza la data corresponent a
+.I fitxer_referencia
+com el nou valor per la(s) data(s) modificada(s).
+.TP
+.BI "\-t " time
+Utilitza la data especificada com el nou valor per la(s) data(s)
+modificada(s). Aquest argument ha de ser un nombre decimal de la forma
+.br
+.nf
+    [[SS]AA]MMDDhhmm[.ss]
+.br
+.fi
+amb el seu significat obvi. Si SS no és especificat, l'any SSAA és pres com a
+pertanyent a l'interval 1969-2068. Si ss no s'especifica, es pren com a
+valor 0. És possible especificar-ho dins dels valors 0-61 així que és
+possible donar valors de canvi ("salt") de minut. La data resultant es
+pren com una data de la zona horària especificada per la variable d'entorn
+TZ. Es produeix un error si la data donada és anterior a l'1 de
+Gener de 1970.
+.SH "DETALLES POSIX"
+La segona manera d'execució té el desavantatge que pugues haver-hi certa
+ambiguedad en l'acabo
+.I ugly_time
+és una data o un argument de fitxer. Es considera com a data quan no
+estan presentis les opcions \-r o \-t, hi ha almenys dos arguments,
+i el primer argument és un 8 - o un 10 - com a dígit decimal sencer.
+El format de 
+.I ugly_time
+és MMDDhhmm[aa], on aa aquesta en el rang 69-99 entenentse com un any
+en l'interval de 1969-1999. Un argument aa no especificat s'entén
+com l'any actual. Aquesta forma de utilizació de touch es troba obsoleta.
+.SH "DETALLES GNU"
+Si el primer
+.I fitxer
+fos un argument valgut per a l'opció
+.B "\-t"
+i no es dóna data amb cap de les opcions
+.BR "\-d" ,
+.BR "\-r"
+o
+.B "\-t"
+i l'argument `\-\-' no es dóna, aquest argument s'interpreta com la data
+per altres fitxers en comptes del nom d'un fitxer.
+.PP
+Si tant la data d'accés com de modificació a la data actual,
+.B touch
+pot canviar la data dels arhivos que l'usuari que els executa tingui
+permisos d'escriptura en ells, encara que no siguin seus. De qualsevol altra
+manera, l'usuari ha de ser l'amo dels fitxers.
+.SH "OPCIONS GNU"
+.TP
+.B "\-a, \-\-time=atime, \-\-time=access, \-\-time=use"
+Canvia solament el temps d'accés.
+.TP
+.B "\-c, \-\-no\-create"
+No crea fitxers que no existian abans.
+.TP
+.BI "\-d, \-\-date=" data
+Use
+.I fecha
+en lloc de la data actual. Pot contenir noms de mesos,
+zones horàries, `am' i `pm', etc.
+.TP
+.B "\-f"
+Ignorat; per a compatibilitat amb versions BSD de
+.BR touch (1).
+.TP
+.B "\-m, \-\-time=mtime, \-\-time=modify"
+Canvia solament la data de modificacion.
+.TP
+.BI "\-r " fitxer ", \-\-reference=" fitxer
+Utilitza com a referència les dates de
+.I fitxer
+en lloc de la data actual.
+.TP
+.BI "\-t " decimtime
+Aqui
+.I decimtime
+té el format [[SS]AA]MMDDhhmm[.ss]
+Utilitzi l'argument (mesos, dies, hores, minuts, opcionalment el segle
+i anys, opcionalment segons) en lloc de la data actual.
+Tingui en compte que aquest format viola la especificacion POSIX.
+.SH "OPCIONS GNU NORMALES"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+La variable TZ s'usa per interpretar dates específiques donades.
+Les variables LANG, LC_ALL, LC_CTYPE y LC_MESSAGES tenen el
+habitual significat.
+.SH "CONFORME A"
+POSIX 1003.2 descriu la sintaxi per a l'argument de l'opció \-t
+que difereix de la usada per la implementacion GNU.
+.SH "EXEMPLE D'UTILITZACIÓ"
+L'ordre `\fItouch foo\fP' crearà el fitxer \fIfoo\fP
+si aquest no existia, i canviant la data de la ultima modificació a l'actual.
+Habitualment és usada per guiar les accions de
+.BR make .
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B touch
+com es troba en el paquet fileutils-4.0;
+altres versions poden tenir lleugeres diferències. Correccions i
+contribucions a aeb@cwi.nl.
+Informes de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

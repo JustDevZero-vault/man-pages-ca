@@ -1,0 +1,120 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH DIRCOLORS 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+dircolors \- configuració de colors per `ls'
+.SH SINOPSI
+.B dircolors
+.B [\-b] [\-\-sh] [\-\-bourne\-shell]
+.B [\-c] [\-\-csh] [\-\-c\-shell]
+.B [\-p] [\-\-print\-database]
+.B [\-\-help] [\-\-version]
+.BI [ FITXER ]
+.SH DESCRIPCIÓ
+.B dircolors
+true a la sortida estàndard una seqüència d'ordres de la `shell' per
+definir els colors de sortida desitjats de
+.B ls
+(y
+.BR dir ,
+etc.).  Forma d'ús normal:
+.br
+.RS
+eval `dircolors [OPCIÓ]... [FITXER]`
+.RE
+.PP
+Si s'especifica
+.IR FITXER ,
+.B dircolors
+ho llegeix per determinar què colors emprar para quins tipus i
+extensions de fitxer. Si no, s'empra una base de dades
+precompilada. Per als detalls sobre el format d'aquests fitxers,
+executi `dircolors \-\-print\-database'.
+.PP
+La sortida és una ordre del shell per definir la variable d'entorn
+.BR LS_COLORS .
+Un pot especificar la sintaxi del shell a emprar en la línia
+d'ordres, o bé deixar que
+.B dircolors
+l'endevini a partir del valor de la variable d'entorn
+.BR SHELL .
+.PP
+Després de l'execució d'aquesta ordre, `ls \-\-color' (que un podria
+establir com un àlies de ls) llistarà fitxers emprant els colors
+desitjats.
+.PP
+.SH OPCIONS
+.TP
+.B "\-b, \-\-sh, \-\-bourne\-shell"
+Empra ordres del shell de Bourne (ash, sh, bash, ksh, pdksh, zsh).
+Aquest és el comportament predeterminat si la variable d'entorn
+.B SHELL
+està definida i el seu valor no acaba en
+.IR csh .
+.TP
+.B "\-c, \-\-csh, \-\-c\-shell"
+Empra ordres del shell C (csh, tcsh, també zsh). Aquest és el
+comportament predeterminat si la variable d'entorn
+.B SHELL
+acaba en
+.IR csh .
+.TP
+.B "\-p, \-\-print\-database"
+Imprimeix la base de dades de configuració de colors predeterminada
+(incorporada al programa compilat). Aquesta sortida és en si mateixa un
+fitxer de configuració vàlid, i és bastant descriptiu sobre les
+possibilitats de configuració.
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+La variable LS_COLORS s'usa per transferir informació a
+.BR ls .
+.SH "CONFORME A"
+La sortida acolorida para
+.BR ls (1)
+és una extensió de GNU.
+Aquesta implantació no és totalment compatible amb l'aplicació original
+.BR dircolors / color-ls
+distribuïda amb Slackware Linux. Notablement, el suport específic pels
+shells Z i Korn no està present. Els usuaris d'aquests intèrprets d'ordres
+haurien d'usar la manera ``Bourne shell'' (-b).
+.SH "VEGEU TAMBÉ"
+.BR dir_colors (5),
+.BR ls (1)
+.SH FITXERS
+.TP
+.I /etc/dir_colors
+Fitxer de configuració global del sistema para
+.BR dircolors.
+.TP
+.I ~/.dir_colors
+Fitxer de configuració per usuari para
+.BR dircolors .
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B dircolors
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.
+

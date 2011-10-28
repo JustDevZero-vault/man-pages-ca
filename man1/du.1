@@ -1,0 +1,192 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+.\"
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH DU 1 "Novembre 1998" "GNU fileutils 4.0"
+.SH NOM
+du \- estima l'ús d'espai de fitxers
+.SH SINOPSI
+.BI "du [" opcions "] [" fitxer... ]
+.sp
+Opcions de POSIX:
+.B [\-askx]
+.sp
+Opcions de GNU options (forma més curta):
+.B [\-abcDhHklLmsSxX]
+.BI "[\-\-block\-size=" grandària ]
+.BI "[\-\-exclude=" patró ]
+.BI "[\-\-max\-depth=" n ]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B du
+informa de la quantitat d'espai de disc usada pels fitxers
+especificats, i per cada directori en les jerarquies les arrels de les quals
+estiguin en els fitxers especificats.
+Aquí, `espai de disc usat' significa espai usat per la
+jerarquia de fitxers per sota del fitxer especificat.
+.PP
+Sense arguments,
+.B du
+informa de l'espai de disc per al directori en curs.
+.SH "DETALLS DE POSIX"
+La sortida és en unitats de 512 bytes, tret que es doni l'opció
+\-k, en aquest cas és en unitats de 1024 bytes.
+.SH "DETALLS DE GNU"
+La sortida és en unitats de 1024 bytes (quan no s'especifiquen
+unitats en les opcions), tret que la variable d'entorn
+.B POSIXLY_CORRECT
+estigui definida, en aquest cas se segueix a POSIX.
+.SH "OPCIONS DE POSIX"
+.TP
+.B "\-a"
+Mostra els nombres per a tots els fitxers oposats, no solament per als
+directoris.
+.TP
+.B "\-k"
+Empra unitats de 1024 bytes en comptes de les predeterminades de 512 B.
+.TP
+.B "\-s"
+Solament imprimeix en la sortida l'ús d'espai per als arguments
+realment donats, no per als seus subdirectoris.
+.TP
+.B "\-x"
+Solament explica l'espai en el mateix dispositiu on estigui l'argument
+donat.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-a, \-\-all"
+Mostra els nombres per a tots els fitxers, no només per als directoris.
+.TP
+.B "\-b, \-\-bytes"
+Mostra les grandàries en bytes, en comptes d'en kilobytes.
+.TP
+.BI "\-\-block\-size=" grandària
+Mostra les grandàries en blocs
+de .I grandària
+bytes.
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-c, \-\-total"
+Mostra un total per a tots els arguments després que aquests s'hagin
+processat. Això pot emprar-se per trobar l'ús de disc
+total d'un conjunt dau de fitxers o directoris.
+.TP
+.B "\-D, \-\-dereference\-args"
+Desreferencia enllaços simbòlics que siguin arguments de la línia
+d'ordres. No afecta a altres enllaços simbòlics. Això és d'ajuda per
+trobar l'ús de disc de directoris, com
+.IR /usr/tmp ,
+que són sovint enllaços simbòlics.
+.TP
+.BI "\-\-exclude=" patró
+En cas recursivo, saltar els subdirectoris o fitxers que coincideixin amb
+.IR patró .
+El
+.I patró
+pot ser qualsevol patró global estàndard de fitxers del shell Bourne.
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-h, \-\-human\-readable"
+Afegeix una lletra indicativa de la grandària, com
+.B M
+per a megabytes binaris (`mebibytes'), a cada grandària.
+.TP
+.B "\-H, \-\-si"
+Fa el mateix que
+.B \-h
+però usa les unitats del SI oficials (amb potències de 1000 en comptes de
+1024, per la qual cosa M representa 1000000 en lloc de 1048576).
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-k, \-\-kilobytes"
+Mostra les grandàries en kilobytes.
+.TP
+.B "\-l, \-\-count\-links"
+Explica la grandària de tots els fitxers, fins i tot si ja han aparegut
+abans (com succeeix amb un enllaç dur).
+.TP
+.B "\-L, \-\-dereference"
+Desreferencia enllaços simbòlics (mostra l'espai de disc usat
+pel fitxer o directori al com apunti l'enllaç en comptes de l'espai
+usat per l'enllaç mateix).
+.TP
+.B "\-m, \-\-megabytes"
+Mostra les grandàries en blocs de megabytes (això és, 1,048.576 bytes).
+.TP
+.BI "\-\-max\-depth=" n
+Mostra el total per a un directori (o fitxer, amb l'opció
+.BR \-a
+) només si està
+a .I n
+o menys nivells per sota de l'argument de la línia d'ordres.
+.BI "\-\-max\-depth=" 0
+és el mateix que l'opció
+.BR \-s .
+(Nova en file\%utils-4.0.)
+.TP
+.B "\-s, \-\-summarize"
+Mostra solament un total per a cada argument.
+.TP
+.B "\-S, \-\-separate\-dirs"
+Informa de la grandària de cada directori separadament, sense incloure les
+grandàries dels subdirectoris.
+.TP
+.B "\-x, \-\-one\-file\-system"
+Se salta els directoris que estiguin en sistemes de fitxers diferents
+de aquél donde esté el argumento que se esté procesando.d'aquell on estigui l'argument que s'estigui processant.
+.TP
+.BI "\-X " "fitxer, " "\-\-exclude\-from=" "fitxer"
+Igual que
+.BR \-\-exclude
+tret que pren els patrons a excloure del
+.I fitxer
+indicat. Els patrons es llisten un per línia. Si
+es dóna `\-' com
+.IR fitxer ,
+els patrons es llegeixen de l'entrada estàndard.
+(Nova en file\%utils-4.0.)
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH FALLADES
+En sistemes BSD,
+.B du
+dóna grandàries que són la meitat dels valors correctes per a fitxers que
+estan muntats des de sistemes HP-UX. En sistemes HP-UX, dóna grandàries que
+són el doble dels valors correctes per a fitxers muntats en
+sistemes BSD. Això és a causa d'un defecte en HP-UX; també afecta al
+programa
+.B du
+d'HP-UX.
+.SH ENTORN
+La variable POSIXLY_CORRECT determina l'elecció de la unitat. Si no
+està definida, i la variable BLOCKSIZE té un valor que comenci per
+`HUMAN', llavors el comportament és com el de si s'hagués donat
+l'opció \-h, tret que se substitueixi per les opcions \-k o \-m.
+Els variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals.
+.SH "CONFORME A"
+POSIX 1003.2
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B du
+segons és troba en el paquet fileutils-4.0; altres versions
+podin diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.

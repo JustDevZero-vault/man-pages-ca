@@ -1,0 +1,315 @@
+.\" Copyright Andries Brouwer, Ragnar Hojland Espinosa and A. Wik, 1998.
+.\"
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\" 
+.\" Translated into catalan on Thu Oct 27 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH CP 1 "Noviembre 1998" "GNU fileutils 4.0"
+.SH NOM
+cp \- copia fitxers i directoris
+.SH SINOPSI
+.BI "cp [" "opcions" "] " "fitxer ruta"
+.br
+.BI "cp [" "opcions" "] " "fitxers... directori"
+.sp
+Opcions de POSIX:
+.B [\-fipRr]
+.sp
+Opcions de GNU (en la forma més curta):
+.B [\-abdfilprsuvxPR]
+.BI "[\-S " SUFIX ]
+.B "[\-V {numbered,existing,simple}]"
+.BI [\-\-sparse= QUAN ]
+.B "[\-\-help] [\-\-version] [\-\-]"
+.SH DESCRIPCIÓ
+.B cp
+copia fitxers (o, opcionalment, directoris).
+Un pugues ben copiar un fitxer a una destinació donada,
+o copiar arbitràriament diversos fitxers a un directori destino.
+.PP
+Si l'últim argument es refereix a un directori existent,
+.B cp
+copia cada 
+.I fitxer
+font a aquest directori (mantenint el mateix nom). En un altre cas,
+si només es donen dos fitxers, copia el primer sobre el segon. És un
+error que l'últim argument no sigui un directori i es donin diversos
+arguments no opcions.
+.PP
+(Així per exemple, `cp \-r /a /b' copiarà /a a /b/a i /a/x a /b/a/x en cas que
+/b ja existeixi, però copiarà /a a /b i /a/x a /b/x si
+no existia /b amb anterioritat.)
+.PP
+Els permisos dels fitxers i directoris creats seran els mateixos
+que els de els fitxers originals, aplicant-los l'operació de bits
+I sobre 0777, i modificats per la umask de l'usuari (tret que s'hagi
+especificat l'opció \-p).
+(Però durant la còpia recursiva de directoris, als permisos
+finals dels directoris recentment creats se'ls aplicarà l'operació
+de bits O amb S_IRWXU (0777), de manera que es permeti al procés llegir,
+escriure i passar pel directori recentment creat.)
+.PP
+No es fa res quan es copiï un fitxer a si mateix (excepte
+possiblement produir un missatge d'error).
+Quan es copiï a un fitxer diferent que ja existeixi, s'obrirà
+emprant la trucada `open(path, O_WRONLY | O_TRUNC)'.
+Quan es copia a un fitxer nou es crea emprant la trucada
+`open(path, O_WRONLY | O_CREAT, mode)'.
+Si això falla, el fitxer existia i es va donar l'opció \-f, llavors
+.B cp
+intenta esborrar (desenllaçar) el fitxer existent i, si això té
+èxit, procedeix com per a un fitxer nou.
+
+.SH "OPCIONS DE POSIX"
+POSIX reconeix quatre opcions i mitja:
+.TP
+.B \-f
+Esborrar fitxers destino existents si es requereix. (Vegi més amunt.)
+.TP
+.B \-i
+Pregunta si sobreescribir fitxers regulars destinació existents.
+(Escriu una pregunta en stderr i llegeix la resposta des de stdin.
+Només copia després d'una resposta afirmativa.)
+.TP
+.B \-p
+Preserva els permisos, el propietari i el grup (incloent els bits
+SUID i SGID) dels fitxers originals, més el temps d'última
+modificació i el d'últim accés.
+En cas que la duplicació del propietari o grup falli, es
+netegen els bits setuid i setgid.
+(Observi que després de tot el font i la còpia poden molt bé
+tenir temps d'últim accés diferents, ja que l'operació de
+còpia és un accés al fitxer font.)
+.TP
+.B \-R
+Copia directoris recursivament i fa el correcte quan es
+troben objectes diferents de fitxers ordinaris o directoris.
+(Així, la còpia d'un FIFO un un fitxer especial és un FIFO o un
+fitxer especial.)
+.TP
+.B \-r
+Copia directoris recursivamente i fa alguna cosa sense especificar amb
+objectes diferents de fitxers ordinaris o directoris.
+(Així, està permès, de fet recomanat, que l'opció \-r sigui un
+sinònim de \-R. No obstant això, un comportament ximple, com el de la
+present versió de GNU de
+.BR cp
+(vegi més a baix) no està prohibit.)
+.SH "DETALLES DE GNU"
+.PP
+Generalment, els fitxers s'escriuen just quan es llegeixen. Per a
+excepcions, vegi l'opció
+.B "\-\-sparse"
+més a baix.
+.PP
+De forma predeterminada, `cp' no copia directoris (vegi
+.B "\-r"
+a dalt).
+.PP
+.B cp
+generalment refusa copiar un fitxer sobre si mateix, amb la següent
+excepció: si s'especifica
+.B "\-\-force \-\-backup"
+amb
+.I font
+y
+.I dest
+idèntics, i es refereix a un fitxer regular,
+.B cp
+crearà un fitxer de respatller, bé regular o numerat,
+com s'especifiqui de les formes usuals. Això és útil quan un vol
+simplement construir un fitxer de respatller d'un fitxer existent
+abans de canviar-ho.
+.SH "OPCIONS DE GNU"
+.TP
+.B "\-a, \-\-archive"
+Preserva tant com sigui possible l'estructura i atributs dels
+fitxers originals en la còpia (però no preserva l'estructura de
+directori). Equivalent a
+.BR "\-dpR" .
+.TP
+.B "\-d, \-\-no\-dereference"
+Copia els enllaços simbòlics com a tals en lloc de copiar els
+fitxers als quals apuntin i preserva les relacions dels enllaços
+durs entre fitxers font en les còpies.
+.TP
+.B "\-f, \-\-force"
+Elimina els fitxers de destinació que ja existeixin sense demanar confirmació.
+.TP
+.B "\-i, \-\-interactive"
+Pregunta si sobreescribir fitxers de destinació regulars existents.
+.TP
+.B "\-l, \-\-link"
+En vegada fer còpies de fitxers que no són directoris, fa enllaços durs.
+.TP
+.B "\-p, \-\-preserve"
+Preserva els permisos, el propietari, el grup i els temps dels
+fitxers originals.
+.TP
+.B "\-P, \-\-parents"
+Forma el nom de cada fitxer de destinació afegint al directori
+destino una barra inclinada i el nom especificat del fitxer
+origen. L'últim argument donat a
+.B cp
+ha de ser el nom d'un directori existent. Per exemple, l'ordre
+.br
+.nf
+    cp \-\-parents a/b/c dir_existent
+.br
+.fi
+copia el fitxer `a/b/c' a `dir_existent/a/b/c', creant qualsevol
+directori intermedi que falti.
+.TP
+.B "\-r"
+Copia directoris recursivamente, copiant qualsevol fitxer no directori
+ni enllaç simbòlic (això és, FIFOs i fitxers especials) com si
+fos un fitxer regular. Això significa intentar llegir les dades de
+cada fitxer font i escriure'ls en la destinació. Així, amb aquesta opció,
+`cp' pot molt bé penjar-se indefinidament llegint un FIFO o /dev/tty.
+(Això és una fallada. Significa que un ha d'evitar \-r i ha d'emprar
+en el seu lloc \-R si no sap què hi ha en l'arbre de directoris
+que s'està copiant. Obrir un fitxer de dispositiu desconegut,
+diguem un escàner, té efectes desconeguts sobre el maquinari.)
+.TP
+.B "\-R, \-\-recursive"
+Copia directoris recursivamente, preservant els no-directoris (vegi
+.B "\-r"
+just a dalt).
+.TP
+.BI "\-\-sparse=" "QUAN"
+Un `fitxer dispers' conté `forats': seqüències de bytes zero
+que no ocupen cap bloc físic de disc; la trucada al sistema
+`read()' les llegeix com zeros. Això pugues tant salvar un considerable
+espai de disc com incrementar la velocitat, ja que molts
+fitxers binaris contenen munts de bytes zero consecutius. Per
+defecte,
+.B cp
+detecta forats en els fitxers font d'entrada
+a partir d'una heurística prou i construeix els fitxers de
+sortida corresponents dispersos també.
+.RS
+.PP
+El valor
+.I QUAN
+pot ser un dels següents:
+.TP
+.B auto
+El comportament predeterminat; el fitxer de sortida és dispers si
+el d'entrada ho és.
+.TP
+.B always
+Sempre construeix dispers el fitxer de sortida. Això és útil quan
+el fitxer d'entrada resideix en un sistema de fitxers que no admet
+fitxers dispersos, però el de sortida està en un sistema de fitxers
+que sí.
+.TP
+.B never
+Mai construeix dispers el fitxer de sortida. Si voste troba una
+aplicació per a aquesta opció, faci'ns-la saber.
+.RE
+.TP
+.B "\-s, \-\-symbolic\-link"
+Fa enllaços simbòlics en comptes de còpies de fitxers que no siguin
+directoris. Tots els noms de fitxers origen han de ser absoluts
+(començar per `/') tret que els fitxers de destinació estiguin
+en el directori de treball. Aquesta opció simplement produeix
+un missatge d'error en sistemes que no admetin enllaços simbòlics.
+.TP
+.B "\-u, \-\-update"
+No copia un fitxer no-directori si la destinació ja existeix i té el
+mateix temps de modificació o més recent.
+.TP
+.B "\-v, \-\-verbose"
+Mostra el nom de cada fitxer abans de copiar-ho.
+.TP
+.B "\-x, \-\-one\-file\-system"
+Se salta subdirectoris que estiguin en sistemes de fitxers diferents
+d'aquell en el qual va començar la còpia.
+.SH "OPCIONS DE RESPATLLER DE GNU"
+Les versions de GNU de programes com
+.BR cp ,
+.BR mv ,
+.BR ln ,
+.B install
+y
+.B patch 
+crearan una còpia de seguretat de fitxers que siguin a punt de
+ser sobreescritos, modificats o destruïts. Que es desitgin fitxers de
+respatller s'indica mitjançant l'opció \-b. Com haurien de nomenar-se s'especifica
+amb l'opció \-V. En el cas que el nom del fitxer
+de respatller es doni mitjançant el nom del fitxer estès amb un
+sufix, aquest sufix s'especifica amb l'opció \-S.
+.TP
+.B "\-b, \-\-backup"
+Fa còpies de respatller de fitxers que són a punt de
+ser sobreescritos o esborrats.
+.TP
+.BI "\-S " SUFIX ", \-\-suffix=" SUFIX
+Afegeix
+.I SUFIX
+a cada fitxer de respatller creat.
+Si no s'especifica aquesta opció, s'empra el valor de la variable
+d'entorn.
+.BR SIMPLE_BACKUP_SUFFIX .
+Y si 
+.B SIMPLE_BACKUP_SUFFIX
+no està definida, el valor predeterminat és `~'.
+.TP
+.BI "\-V " MÈTODE ", \-\-version\-control=" MÈTODE
+.RS
+Especifica com es nomenen els fitxers de respatller. L'argument
+.I MÈTODE
+pot ser `numbered' (o `t'), `existing' (o `nil'), o `never' (o
+`simple'). 
+Si aquesta opció no s'especifica, s'empra el valor de la variable
+d'entorn.
+.BR VERSION_CONTROL .
+I si
+.B VERSION_CONTROL
+no està definida, el tipus predeterminat de respatller és `existing'. 
+.PP
+Aquesta opció correspon a la variable de Emacs `version-control'.
+ELS
+.IR MÈTODE s
+vàlids són (s'accepten abreujaments inambiguas):
+.TP
+.BR t ", " numbered
+Sempre fa respatllers numerats.
+.TP
+.BR nil ", " existing
+Fa respatllers numerats de fitxers que ja els tinguin, respatllers
+`simple's dels altres.
+.TP
+.BR never ", " simple
+Sempre fa respatllers simples.
+.RE
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge en la sortida estàndard sobre la forma d'ús i
+acaba amb codi d'èxit.
+.TP
+.B "\-\-version"
+Mostra en la sortida estàndard informació sobre la versió i després
+acaba amb codi d'èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH ENTORN
+Les variables LANG, LC_ALL, LC_COLLATE, LC_CTYPE i LC_MESSAGES tenen els
+significats usuals. Per al sistema de versions de GNU, les
+variables SIMPLE_BACKUP_SUFFIX i VERSION_CONTROL controlen la
+nomenclatura dels fitxers de respatller, com s'ha descrit anteriorment.
+.SH "CONFORME A"
+POSIX 1003.2
+.SH OBSERVACIONS
+Aquesta pàgina descriu
+.B cp
+segons es troba en el paquet fileutils-4.0; altres versions
+poden diferir una mica. Enviï per correu electrònic correccions i
+addicions a l'adreça aeb@cwi.nl.
+Informe de fallades al programa a
+fileutils-bugs@gnu.ai.mit.edu.
