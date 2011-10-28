@@ -1,0 +1,71 @@
+* DESCRIPTION
+
+This package contains the translation into Catalan of the English
+man-pages package. It is a beta release, so you can still find a lot
+of bugs.  Contributions are welcome. For any doubt or suggestion about
+this release, send an e-mail to  Daniel Ripoll Osma <info at
+danielripoll.es>. In order to collaborate with the project, please visit
+http://manualencatala.tk.
+
+An archive of the currently available man pages in Catalan can be
+found at http://www.danielripoll.es/manual_catala.
+
+* INSTALLATION
+
+"make install" will just copy Catalan man pages to
+/usr/share/man/ca/man[1-8], where the man application will find them
+if you set LANG to ca_ES or ca_ES.UTF-8.
+
+"make" will move the pages from this package that are older than the
+already installed ones to a subdirectory `not_installed', then remove
+old versions (compressed or not), and finally copy them to
+/usr/share/man/ca/man[1-8].
+
+If your man pager can handle compressed source pages (man-1.5 can),
+you might do "make gz" or "make bz2" before "make install", or just
+say "make allgz" or "make allbz". Note that you may have to remove
+preformatted pages.
+
+Also note that sometimes these pages are duplicates of pages also
+distributed in other packages. This has been reported about dlclose.3,
+dlerror.3, dlopen.3, dlsym.3 (found in ld.so), about resolver.3,
+resolv.conf.5 (found in bind-utils), and about passwd.5, and
+mailaddr.7. Be careful not to overwrite more up-to-date versions.
+Reports on further duplicates are welcome.  Formerly present and now
+removed duplicates:
+
+	 *_module.2, get_kernel_syms.2 (found in modutils-2.1.*),
+         exports.5 (found in nfs-server-2.2*), fstab.5, nfs.5 (found
+         in util-linux-2.11*), lilo.8, lilo.conf.5 (found in lilo-21.6*).
+
+Note that the pages that come with GNU fileutils are really
+help texts (indeed, are generated automatically from help texts),
+and worse than worthless. Without them people would have good
+detailed man pages, such as those found here in man1.
+As it is, many distributions install these "man pages",
+to the detriment of their users.
+
+Send corrections and enhancements of this release Catalan man pages to
+Daniel Ripoll <info a danielripoll.es> (man.7 has some info on the
+macros to use). Send corrections of the English man pages to
+aeb@cwi.nl.
+
+
+* CONFIGURATION
+
+Take into account that Catalan man page are encoding in UTF8. You must
+properly configure the corresponding applications if you can see them
+correctly.
+
+* WARNING
+
+The following files have not been translated:
+	- koi8-r.7
+	- ALL
+
+* COPYRIGHTS
+
+These man pages come under various copyrights.
+All are freely distributable when the nroff source is included.
+
+(C) 2011-2011. The PAMCLi project translators

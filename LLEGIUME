@@ -1,0 +1,77 @@
+* DESCRIPCIÓ
+
+Aquest arxiu conté la traducció al català del paquet man-pages
+en anglès. És una versió beta, per la qual cosa encara pot trobar
+bastants errors. Qualsevol contribució serà benvinguda. Per a
+qualsevol dubte o suggeriment sobre aquesta versió, enviï un correu
+a Daniel Ripoll Osma <info a danielripoll.es>. Si desitja colaborar en el
+projecte, per favor, visiti http://manualencatala.tk.
+
+Pot trobar un còpia de les pàgines de manual en català
+actualment disponibles en http://www.danielripoll.es/manual_catala.
+
+* INSTALACIÓ
+
+Per instal·lar el paquet executi "make install", la qual cosa simplement
+copiarà els fitxers a /usr/share/man/ca/man[1-8], on l'aplicació
+man els trobarà si assigna ca_ES o ca_ES.UTF-8 a LANG.
+
+"make" mourà les pàgines d'aquest paquet que són més antigues que les
+ja instal·lades al subdirectori `no_instal·lades', a continuació
+eliminarà les versions antigues (comprimides o no) i finalment
+copiarà les noves pàgines a /usr/share/man/ca/man[1-8].
+
+Si el seu visualitzador de pàgines de manual pot manejar pàgines
+comprimides (man-1.5 pugues), hauria d'executar "make gz" o "make bz2"
+abans de "make install", o simplement executar "make allgz" o "make
+allbz".
+
+Adonis compte que pot ser que tingui eliminar algunes pàgines
+preformatejades.
+
+Adverteixi també que algunes vegades aquestes pàgines estan repetides en
+altres paquets. És el que ocorre amb dlclose.3, dlerror.3, dlopen.3,
+dlsym.3 (que es troben en ld.so), amb resoldre.3, resolv.conf.5
+(que es troben en bind-utils) i amb passwd.5 i mailaddr.7. Vagi amb compte
+de no sobreescriure versions més actualitzades. Seran
+benvinguts informes sobre altres pàgines repetides. Pàgines repetides
+formalment presents i ara eliminades són:
+
+         *_module.2, get_kernel_syms.2 (trobades an modutils-2.1.*),
+         exports.5 (trobada a nfs-server-2.2*), fstab.5, nfs.5
+         (trobades a util-linux-2.11*), lilo.8, lilo.conf.5
+         (trobades a lilo-21.6*).
+
+Dese compte que les pàgines de manual que vénen amb les fileutils
+de GNU són en realitat textos d'ajuda (de fet, es generen
+automàticament a partir de textos d'ajuda) i són el pitjor del pitjor.
+Sense elles, la gent tindria bones pàgines de manual detallades, com
+aquelles que es troben aquí en man1. Encara així, moltes
+distribucions instal·len aquestes "pàgines de manual", en detriment dels
+seus usuaris
+
+Enviï correccions i millores d'aquesta versió de les pàgines de manual
+en català a Daniel Ripoll <info a danielripoll.es> (man.7 conté
+alguna informació sobre les macros a usar). Enviï correccions i
+millores de les pàgines de manual en anglès a aeb@cwi.nl.
+
+
+* CONFIGURACIÓ
+
+Tingui en compte que les pàgines de manual en espanyol estan codificades
+en UTF8. Si no pot veure-les correctament, haurà de configurar
+adequadament les aplicacions corresponents.
+
+
+* ATENCIÓ
+
+No s'han traduït els següents fitxers:
+        - koi8-r.7 (castellà)
+	- TOTS
+
+* COPYRIGHT
+
+Aquestes pàgines de manual venen baix diferents llicencies. Totes elles
+es poden distribuir lliurament si poseixen les fonts en nroff.
+
+(C) 2011-2011. Traductors del projecte PAMCLi

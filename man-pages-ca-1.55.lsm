@@ -1,0 +1,13 @@
+Begin3
+Title:          Catalan man pages for Linux, sections 2, 3, 4, 5 and 7
+Version:        1.55
+Entered-date:   2011-06-07
+Description:    Translation into Catalan of the English man-pages-1.55 for Linux
+Keywords:       man pages
+Author:         Daniel Ripoll <info at danielripoll.es>
+Maintained-by:  Daniel Ripoll <info at danielripoll.es> 
+Primary-site:   http://manualencatala.tk
+                668k man-pages-ca-1.55.tar.bz2
+Alternate-site: http://www.danielripoll.es/manual_catala
+Copying-policy: several; all freely distributable if nroff source included
+End

@@ -1,0 +1,146 @@
+
+The Linux man page maintainer proudly announces. . .
+
+    man-pages-1.55.tar.gz - section 2, 3, 4, 5, 7 man pages for Linux
+
+and in addition section 1 man pages for the fileutils-4.0 utilities,
+and section 5 and 8 man pages for the timezone utilities.
+
+[The latter were taken from ftp://elsie.nci.nih.gov/pub/tzcode2001a.tar.gz.]
+[The section 3 man pages for the db routines have been taken from
+ftp://ftp.terra.net/pub/sleepycat/db.1.86.tar.gz.]
+[The rpc man pages were taken from the 4.4BSD-Lite CDROM.]
+
+
+Differences from version 1.54:
+
+    The man pages
+
+	alloc_hugepages.2 arch_prctl.2 clone.2 free_hugepages.2
+	futex.2 gettid.2 mmap.2 msgget.2 personality.2 recv.2
+	select.2 send.2 setpgid.2 shmget.2 syslog.2 tkill.2
+	undocumented.2
+
+	bcmp.3 bcopy.3 bzero.3 getpt.3 grantpt.3 ptsname.3 remove.3
+	scanf.3 shm_open.3 string.3 tcgetpgrp.3 tcgetsid.3 unlockpt.3
+
+	futex.4 ptmx.4 pts.4
+
+	proc.5
+
+	signal.7
+
+    are new or have been updated. Typographical or grammatical errors
+    have been corrected in several other places.
+
+Here is a breakdown of what this distribution contains:
+
+    Section 1 = user commands (intro, and pages not maintained by FSF)
+    Section 2 = system calls
+    Section 3 = libc calls
+    Section 4 = devices (e.g., hd, sd)
+    Section 5 = file formats and protocols (e.g., wtmp, /etc/passwd, nfs)
+    Section 6 = games (intro only)
+    Section 7 = conventions, macro packages, etc.
+    Section 8 = system administration (intro only)
+
+    Usually, there are no section 1, 6 and 8 man pages because these
+    should be distributed with the binaries they are written for.
+    Sometimes Section 9 is used for man pages describing parts of the kernel.
+
+    Note that only Section 2 is rather complete, but Section 3 contains
+    several hundred man pages.  If you want to write some man pages,
+    please do so and mail them to aeb@cwi.nl.
+
+
+The following people (listed in alphabetical order by first name)
+wrote, edited, or otherwise contributed to this project:
+
+    Alain Knaff <Alain.Knaff@imag.fr>
+    Alan Cox <alan@lxorguk.ukuu.org.uk>
+    Alan Curry <pacman@cqc.com>
+    Alexey Mahotkin <alexm@hsys.msk.ru>
+    Andi Kleen <ak@muc.de>
+    Andreas Jaeger <aj@arthur.rhein-neckar.de>
+    Andries E. Brouwer <aeb@cwi.nl>
+    Arnt Gulbrandsen <agulbra@nvg.unit.no>
+    Bjorn Ekwall <bj0rn@blox.se>
+    Bruno Haible <haible@clisp.cons.org>
+    Christopher Oliver <oliver@fritz.co.traverse.com>
+    Claus Fischer <claus.fischer@microworld.com>
+    Dan Miner <dminer@nyx.cs.du.edu>
+    Daniel Quinlan <quinlan@yggdrasil.com>
+    Darren Senn <sinster@scintilla.santa-clara.ca.us>
+    David A. Wheeler <wheeler@ida.org>
+    David Metcalfe <david@prism.demon.co.uk>
+    Dimitri Papadopoulos <dpo@club-internet.fr>
+    Drew Eckhardt <drew@cs.colorado.edu>
+    Eric S. Raymond <esr@thyrsus.com>
+    Florian La Roche <florian@suse.de>
+    Giorgio Ciucci <giorgio@crcc.it>
+    Graeme W. Wilford <G.Wilford@ee.surrey.ac.uk>
+    Heiner Eisen
+    Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>
+    Ian Jackson <iwj10@cus.cam.ac.uk>
+    James Sneeringer <jvs@ocslink.com>
+    Jamie Lokier <jamie@imbolc.ucc.ie>
+    Jens Schweikhardt <Jens.Schweikhardt@rus.uni-stuttgart.de>
+    Jeremy Phelps <jphelps@notreached.net>
+    Jim Van Zandt <jrv@vanzandt.mv.com>
+    Jochen Hein <Hein@Student.TU-Clausthal.de>
+    Jochen Karrer <cip307.cip.physik.uni-wuerzburg.de>
+    John Levon <moz@compsoc.man.ac.uk>
+    John S. Kallal <kallal@voicenet.com>
+    Jonathan Naylor <g4klx@g4klx.demon.co.uk, jsn@cs.nott.ac.uk>
+    Joseph S. Myers <jsm28@hermes.cam.ac.uk>
+    Luigi P. Bai <lpb@neosoft.com>
+    Mark D. Roth <roth@uiuc.edu>
+    Markus Kuhn <mskuhn@cip.informatik.uni-erlangen.de>
+    Martin Schulze <joey@infodrom.north.de>
+    Matthew Wilcox <willy@bofh.ai>
+    Michael Elizabeth Chastain <mec@duracef.shout.net>
+    Michael Haardt <michael@moria.de>
+    Michael Kerrisk <mtk16@ext.canterbury.ac.nz>
+    Michael Shields <shields@tembel.org>
+    Mike Battersby <mike@starbug.apana.org.au>
+    Mike Coleman <mkc@debian.org>
+    Mitchum DSouza <m.dsouza@mrc-apu.cam.ac.uk>
+    Nick Duffek <nsd@bbc.com>
+    Nicolai Langfeldt <janl@ifi.uio.no>
+    Nicolás Lichtmaier <nick@debian.org>
+    Niel Charley <N.Charley-CSSE93@computer-science.birmingham.ac.uk>
+    Pawel Krawczyk
+    Peter Memishian <meem@gnu.ai.mit.edu>
+    Ralf Baechle <ralf@waldorf-gmbh.de>
+    Ralph Schleicher <rs@purple.UL.BaWue.DE>
+    Reed H. Petty <rhp@draper.net>
+    Rik Faith <faith@cs.unc.edu>
+    Robert K. Nichols <Robert.K.Nichols@att.com>
+    Robert Love <rml@tech9.net>
+    Sam Varshavchik <mrsam@courier-mta.com>
+    Stephen Lee <sl14@cornell.edu>
+    Steven Greenland <stevegr@sugar.neosoft.com>
+    Thomas K. Dyas <tdyas@eden.rutgers.edu>
+    Thomas Koenig <ig25@rz.uni-karlsruhe.de>
+    Thorsten Kukuk <kukuk@vt.uni-paderborn.de>
+    Tigran A. Aivazian <tigran@sco.com>
+    Tom Bjorkholm <tomb@tomb.mydata.se>
+    Ulrich Drepper <drepper@ipd.info.uni-karlsruhe.de>
+    Urs Thuermann <urs@isnogud.escape.de>
+    Walter Harms <walter.harms@informatik.uni-oldenburg.de>
+    Wolfram Gloger <wmglo@dent.med.uni-muenchen.de>
+
+
+Copyright information:
+
+    Please note that these man pages are distributed under a variety of
+    copyright licenses.  Although these licenses permit free distribution
+    of the nroff sources contained in this package, commercial distribution
+    may impose other requirements (e.g., acknowledgement of copyright or
+    inclusion of the raw nroff sources with the commercial distribution).
+    If you distribute these man pages commercially, it is your
+    responsibility to figure out your obligations.  (For many man pages,
+    these obligations require you to distribute nroff sources with any
+    pre-formatted man pages that you provide.)  Each file that contains
+    nroff source for a man page also contains the author(s) name, email
+    address, and copyright notice.
