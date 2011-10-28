@@ -50,6 +50,13 @@ gz2plain:
 bz2plain:
 	for i in man?; do bunzip2 $$i/*; done
 
+postscript:
+	mkdir manuals; \
+	for i in man?/*; do \
+	file_name=`echo $$i|sed s'=man1/=='|sed s'=.1=='`; \
+		man -M "$$HOME/Proyectos/man-pages-ca/" -t "$$file_name" > manuals/"$$file_name".ps; \
+	done
+
 # Use with
 #  make HTDIR=/some/dir HTOPTS=whatever html
 # The sed removes the lines "Content-type: text/html\n\n"
