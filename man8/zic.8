@@ -1,0 +1,419 @@
+.\" Translated into catalan on Fri Nov 4 2011 by
+.\" Daniel Ripoll Osma <info@danielripoll.es>
+.\"
+.TH ZIC 8
+.SH NOM
+zic \- compilador de fusos horaris
+.SH SINOPSI
+.B zic
+[
+.B \-v
+] [
+.B \-d
+.I directori
+] [
+.B \-l
+.I localtime
+] [
+.B \-p
+.I posixrules
+] [
+.B \-L
+.I leapsecondfilename
+] [
+.B \-s
+] [
+.B \-y
+.I command
+] [
+.I filename
+\&... ]
+.SH DESCRIPCIÓ
+.if t .ds lq ``
+.if t .ds rq ''
+.if n .ds lq \&"\"
+.if n .ds rq \&"\"
+.de q
+\\$3\*(lq\\$1\*(rq\\$2
+..
+.I Zic
+llegeix el text del fitxer (els fitxers) indicat(s) en la línia d'ordres i
+crea els fitxers d'informació de conversions horàries indicats en aquesta entrada.
+Si un
+.I filename
+es
+.BR \- ,
+es llegeix l'entrada estàndard.
+.PP
+Estan disponibles aquestes opcions:
+.TP
+.BI "\-d " directori
+Crea els fitxers d'informació de conversions horàries en el directori
+indicat en lloc d'en el directori estàndard indicat més a baix.
+.TP
+.BI "\-l " timezone
+Usa el fus horari indicat com a hora local.
+.I Zic
+actuarà com si l'entrada contingués una línia d'enllaç de la forma
+.sp
+.ti +.5i
+Link	\fItimezone\fP		localtime
+.TP
+.BI "\-p " timezone
+Usa les regles del fus horari indicat en manejar variables d'entorn de
+fus horari en format POSIX.
+.I Zic
+actuarà com si l'entrada contingués una línia d'enllaç de la forma
+.sp
+.tu +.5i
+Link \fItimezone\fP posixrules
+.TP
+.BI "\-L " leapsecondfilename
+Llegeix la informació dels segons de salt del fitxer indicat.
+Si no s'usa aquesta opció, no apareix informació de segons de salt en
+els fitxers de sortida.
+.TP
+.B \-v
+Es queixa si un any que apareix en el fitxer de dades està fora de
+l'interval d'anys representable per valors
+.IR time (2).
+.TP
+.B \-s
+Limita els valors horaris en els fitxers de sortida a valors que són
+idèntics tant si són presos com amb signe com sense signe.
+Pot usar aquesta opció per generar fitxer compatibles amb SYSV.
+.TP
+.BI "\-y " command
+Usa la orden
+.I command
+indicada en lloc de
+.B yearistype
+en comprovar els tipus dels anys (veáse més a baix).
+.PP
+Les línies d'entrada estan formades per camps.
+Els camps estan separats uns d'uns altres per qualsevol nombre d'espais en
+blanc. Els espais en blanc al principi i final de les línies d'entrada
+s'ignoren.
+Un caràcter coixinet (#) en l'entrada introdueix un comentari que s'estén
+fins al final de la línia en la qual apareix el coixinet.
+Els espais en blanc i els coixinets es poden tancar entre cometes
+dobles (") si es van a usar com a part d'un camp.
+Qualsevol línia en blanc (després de descartar els comentaris) s'ignora.
+S'espera que les línies que no estan en blanc siguin d'un dels
+tres tipus següents: línies de regla, línies de fus i línies d'enllaç.
+.PP
+Una línia de regla té la forma
+.nf
+.ti +.5i
+.ta \w'Rule\0\0'u +\w'NAME\0\0'u +\w'FROM\0\0'u +\w'1973\0\0'u +\w'TYPE\0\0'u +\w'Apr\0\0'u +\w'lastSun\0\0'u +\w'2:00\0\0'u +\w'SAVE\0\0'u
+.sp
+Rule	NAME	FROM	TO	TYPE	IN	ON	AT	SAVE	LETTER/S
+.sp
+Per exemple:
+.ti +.5i
+.sp
+Rule	US	1967	1973	\-	Apr	lastSun	2:00	1:00	D
+.sp
+.fi
+Els camps que componen una línia de regla són:
+.TP "\w'LETTER/S'u"
+.B NAME
+Indica el nom (arbitrari) del conjunt de regles de les quals aquesta regla
+forma part.
+.TP
+.B FROM
+Indica el primer any en el qual s'aplica la regla.
+Es pot donar qualsevol any sencer; s'assumeix el calendari gregorià.
+La paraula
+.B minimum
+(o un abreujament) significa l'any mínim representable com un sencer.
+La paraula
+.B maximum
+(o un abreujament) significa l'any màxim representable com un sencer.
+Les regles poden descriure instants que no són representables com a valors
+de temps; els valors de temps no es poden representar s'ignoren; això
+permet que les regles siguin portables entre ordinadors amb diferents
+tipus de valors horaris.
+.TP
+.B TO
+Dóna l'any final en el qual s'aplica la regla.
+A més de
+.B minimum
+i
+.B maximum
+(com abans),
+es pot usar la paraula
+.B only
+(o un abreujament)
+per repetir el valor del camp
+.BR FROM .
+.TP
+.B TYPE
+Indica el tipus d'any en el qual s'aplica la regla.
+Si
+.B TYPE
+és
+.B \-
+la regla s'aplica en tots els anys entri
+.B FROM
+i
+.BR TO ,
+tots dos inclusivament.
+Si
+.B TYPE
+és qualsevol altra cosa, llavors
+.I zic
+executa l'ordre
+.tu +.5i
+\fByearistype\fP \fIyear\fP \fItype\fP
+.br
+per comprovar el tipus d'un any:
+s'assumeix que un estat de sortida zero significa que l'any és del tipus donat;
+s'assumeix que un estat de sortida un significa que l'any no és del tipus
+donat.
+.TP
+.B IN
+Nom del mes en el qual la regla fa efecte.
+Els noms dels mesos es poden abreujar.
+.TP
+.B ON
+Dóna el dia en el qual la regla fa efecte.
+Els formats reconeguts inclouen:
+.nf
+.in +.5i
+.sp
+.ta \w'Sun<=25\0\0'u
+5 El dia 5 del mes
+lastSun l'últim diumenge del mes
+lastMon l'últim dilluns del mes
+Sun>=8 el primer diumenge 8 o després del dia 8
+Sun<=25 l'últim diumenge 25 o abans del dia 25
+.fi
+.in -.5i
+.sp
+Els noms dels dies de la setmana es poden abreujar o escriure
+totalment. Adoni's que no ha d'haver-hi espais en el camp
+.BR ON .
+.TP
+.B AT
+Dóna l'hora del dia a la qual fa efecte la regla.
+Els formats reconeguts inclouen:
+.nf
+.in +.5i
+.sp
+.ta \w'1:28:13\0\0'o
+2	temps en hores
+2:00	temps en hores i minuts
+15:00	hora en format 24 hores (per a
+	hores després del mig dia)
+1:28:14 temps en hores, minuts i segons
+\- equivalent a 0
+.fi
+.in -.5i
+.sp
+on les 0 hores representen la mitjanit al començament del dia i les 24
+hores són la mitjanit al final del dia.
+Qualsevol d'aquests formats es pot acompanyar per la lletra
+.B w
+si el temps indicat és el temps local del
+.q "rellotge incorporat" ,
+.B s
+si el temps indicat és un temps local
+.q estàndard
+o
+.B u
+(o
+.B g
+o
+.BR z )
+si el temps donat és un temps universal;
+en absència d'un indicador, s'assumeix l'hora del rellotge incorporat.
+.TP
+.B SAVE
+Indica la quantitat de temps a afegir al temps local estàndard quan la
+regla està vigent.
+Aquest camp te el mateix format que el camp
+.B AT
+(encara que, naturalment, els sufixos
+.B w
+i
+.B s
+no s'usen).
+.TP
+.B LETTER/S
+Indica la
+.q "parteix variable"
+(per exemple,
+.q S
+o
+.q D
+en el cas de
+.q EST
+o
+.q EDT )
+dels abreujaments de fus horari a usar quan la regla està vigent.
+Si aquest camp és
+.BR \-
+no existeix part variable.
+.PP
+Una línia de fus té la forma
+.sp
+.nf
+.ti +.5i
+.ta \w'Zone\0\0'u +\w'Australia/Adelaide\0\0'u +\w'GMTOFF\0\0'u +\w'RULES/SAVE\0\0'u +\w'FORMAT\0\0'u
+Zone	NAME	GMTOFF	RULES/SAVE	FORMAT	[UNTIL]
+.sp
+Per exemple:
+.sp
+.ti +.5i
+Zone	Australia/Adelaide	9:30	Aus	CST	1971 Oct 31 2:00
+.sp
+.fi
+Els camps que formen una línia de fus són:
+.TP "\w'GMTOFF'u"
+.B NAME
+El nom del fus horari.
+Est és el nom usat en crear el fitxer d'informació de conversions
+horàries per a la zona.
+.TP
+.B GMTOFF
+La quantitat de temps a afegir a UTC per obtenir el temps estàndard de la
+zona.
+Aquest camp té el mateix format que el dels camps
+.B AT
+i
+.B SAVE
+de les línies de regla;
+comenci el camp amb un signe menys si el temps s'ha de restar a UTC.
+.TP
+.B RULES/SAVE
+El nom de la(s) regla(s) que s'apliquen en el fus horari o,
+alternativament, una quantitat de temps a afegir al temps local estàndard.
+Si aquest camp és
+.B \-
+el temps estàndard sempre s'aplica en el fus horari.
+.TP
+.B FORMAT
+El format per als abreujaments del fus horari en aquest fus horari.
+El parell de caràcters
+.B %s
+s'usa per indicar on va la
+.q "parteix variable"
+de l'abreujament del fus horari.
+Alternativament,
+una barra inclinida (/)
+separa els abreujaments estàndard i d'horari d'estiu.
+.TP
+.B UNTIL
+L'instant en el qual canvia el desplaçament respecte al UTC o la(s)
+regla(s) per a un lloc.
+S'especifica com un any, un mes, un dia i l'hora d'un dia.
+Si s'especifica això, la informació de fus horari es genera a partir del
+desplaçament respecte al UTC i del canvi de regla indicats
+fins a l'instant especificat.
+El mes, dia i hora del dia tenen el mateix format que les columnes IN, ON
+i AT d'una regla; les columnes del final es pot ometre i, com a valor, es
+pren per defecte el valor més proper possible per a les columnes absents.
+.IP
+La línia següent ha de ser una línia
+de .q continuation ;
+aquesta té el mateix format que una línia de fus tret que s'ometen la
+cadena
+.q Zone
+i el nom, ja que la línia de continuació situarà informació que tindrà
+com a punt de partida l'instant especificat pel camp
+.B UNTIL
+de la línia anterior del fitxer usat per la línia anterior.
+Les línies de continuació poden contenir un camp
+.BR UNTIL ,
+exactament com ho fan les línies de fus, indicant que la línia
+següent és una continuació més.
+.PP
+Una línia d'enllaç té la forma
+.sp
+.nf
+.tu +.5i
+.ta \w'Link\0\0'o +\w'Europe/Istanbul\0\0'o
+Link LINK-FROM LINK-TO
+.sp
+Per exemple:
+.sp
+.tu +.5i
+Link Europe/Istanbul Àsia/Istanbul
+.sp
+.fi
+El camp
+.B LINK-FROM
+hauria d'aparèixer com el camp
+.B NAME
+en alguna línia de fus;
+el camp
+.B LINK-TO
+s'usa com un nom alternatiu per a aquest fus.
+.PP
+Excepte para les línies de continuació, les línies pot aparèixer en
+qualsevol ordre en l'entrada.
+.PP
+Les línies del fitxer que descriuen segons de salt tenen el següent
+format:
+.nf
+.tu +.5i
+.ta \w'Leap\0\0'o +\w'YEAR\0\0'o +\w'MONTH\0\0'o +\w'DAY\0\0'o +\w'HH:MM:SS\0\0'o +\w'CORR\0\0'o
+.sp
+Leap YEAR MONTH DAY HH:MM:SS CORR R/S
+.sp
+Per exemple:
+.tu +.5i
+.sp
+Leap 1974 Dec 31 23:59:60 + S
+.sp
+.fi
+Els camps
+.BR YEAR ,
+.BR MONTH ,
+.BR DAY
+i
+.B HH:MM:SS
+indiquen quan es produeixen els segons de salt.
+El camp
+.B CORR
+hauria de ser
+.q +
+si s'afegís un segon de salt
+o
+.q -
+if a second was skipped.
+.\" There's no need to document the following, since it's impossible for more
+.\" than one leap second to be inserted or deleted at a time.
+.\" The C Standard is in error in suggesting the possibility.
+.\" See Terry J Quinn, The BIPM and the accurate measure of time,
+.\" Proc IEEE 79, 7 (July 1991), 894-905.
+.\" or
+.\" .q ++
+.\" if two seconds were added
+.\" or
+.\" .q --
+.\" if two seconds were skipped.
+El camp
+.B R/S
+hauria de ser (un abreujament de)
+.q Stationary
+si l'instant del segon de salt donat pels altres camps hagués d'interpretar-se
+com UTC
+o
+(un abreujament de)
+.q Rolling
+si l'instant del segon de salt donat pels altres camps hagués d'interpretar-se
+com el temps local del rellotge incorporat.
+.SH NOTA
+Per a aquelles zones amb més de dos tipus d'hora local, podria necessitar
+usar una hora local estàndard en el camp
+.B AT
+de la regla de l'instant de transició primer de tots per assegurar que
+l'instant de transició primer de tots gravat en el fitxer compilat és
+correcte.
+.SH FITXER
+/usr/local/etc/zoneinfo directori estàndard usat per als fitxers creats
+.SH "VEGEU TAMBÉ"
+newctime(3), tzfile(5), zdump(8)
+.\" @(#)zic.8	7.19

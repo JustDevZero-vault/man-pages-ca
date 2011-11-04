@@ -1,0 +1,50 @@
+.\" Translated into catalan on Fri Nov 4 2011 by
+.\" Daniel Ripoll Osma <info@danielripoll.es>
+.\"
+.TH TZSELECT 8
+.SH NOM
+tzselect \- selecciona un fus horari
+.SH SINOPSI
+.B tzselect
+.SH DESCRIPCIÓ
+El programa
+.B tzselect
+demana a l'usuari informació sobre la localització actual i mostra en
+la sortida estàndard la descripció de fus horari resultant. La sortida és
+adequada com a valor per a la variable d'entorn TZ.
+.PP
+Tota la interacció amb l'usuari es realitza mitjançant l'entrada estàndard i
+la sortida d'error estàndard.
+.SH "VARIABLES D'ENTORN"
+.TP
+\fBAWK\fP
+El nom d'un programa
+.I awk
+conforme a POSIX (per defecte:
+.BR awk ).
+.TP
+\fBTZDIR\fP
+El nom d'un directori que conté els fitxers de dades dels fusos
+horaris (per defecte:
+.ANAR /usr/local/etc/zoneinfo ).
+.SH FITXERS
+.TP
+\fBTZDIR\fP\fI/iso3166.tab\fP
+Taula amb els codis de país de 2 lletres i els noms dels països segons
+l'estàndard ISO 3166.
+.TP
+\fBTZDIR\fP\fI/zone.tab\fP
+Taula amb els codis dels països, latituds i longituds, valors TZ i
+comentaris descriptius.
+.TP
+\fBTZDIR\fP\fI/\fP\fITZ\fP
+Fitxer de dades de fus horari per al fus horari \fITZ\fP.
+.SH "ESTAT DE SORTIDA"
+L'estat de sortida és zero si es va obtenir amb èxit de l'usuari un fus horari
+i un valor no zero en cas contrari.
+.SH "VEGEU TAMBÉ"
+.BR newctime (3),
+.BR tzfile (5),
+.BR zdump (8),
+.BR zic (8)
+.\" @(#)tzselect.8	1.3

@@ -1,0 +1,172 @@
+.\" -*- nroff -*-
+.\" Copyright 1999 SuSE GmbH Nuernberg, Germany
+.\" Author: Thorsten Kukuk <kukuk@suse.de>
+.\"
+.\" This program is free software; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2 of the
+.\" License, or (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this program; see the file COPYING.  If not,
+.\" write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+.\" Boston, MA 02111-1307, USA.
+.\"
+.\" Modified, 6 May 2002, Michael Kerrisk, mtk16@ext.canterbury.ac.nz
+.\"   Change listed order of /usr/lib and /lib
+.\" Translated into catalan on Fri Nov 4 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.TH ldconfig 8 1999-12 "Biblioteca GNU C"
+.SH NOMBRE
+
+/sbin/ldconfig \- configurar vincles del enllaçador dinàmic en temps
+d'execució
+.SH SINOPSI
+.B /sbin/ldconfig
+[
+.B \-nNvXV
+]
+[
+.BR \-f\ conf
+]
+[
+.BR \-C\ caché
+]
+[
+.BR \-r\ arrel
+]
+.IR directori \ ...
+.PD 0
+.PP
+.PD
+.BR /sbin/ldconfig
+.B \-l
+[
+.B \-v
+]
+.IR biblioteca \ ...
+.PD 0
+.PP
+.PD
+.B /sbin/ldconfig
+.B \-p
+.SH DESCRIPCIÓ
+.B ldconfig
+crea els vincles i caché necessaris a les biblioteques compartides més
+recents que es trobin en els directoris especificats en
+la línia d'ordres, en l'arxiu
+.IR /etc/ld.so.conf ,
+i en els directoris de confiança
+.RI ( /lib
+y
+.IR /usr/lib ).
+La caché és utilitzada pel enllaçador en temps d'execució,
+.IR ld.so
+o
+.IR ld-linux.so .
+.B ldconfig
+comprova la capçalera i els noms de fitxer de les biblioteques que
+va trobant quan determina quines versions haurien d'actualitzar els seus
+vincles.
+.PP
+.B ldconfig
+intentarà deduir el tipus de biblioteques ELF (o sigui, libc5 o
+libc6/glibc) basat a les biblioteques C, si existeixen, contra les quals
+la biblioteca va ser enllaçada. Per tant, quan es construeixin
+biblioteques dinàmiques, és millor enllaçar explícitament contra libc
+(utilitzi -lc).
+.PP
+selecciona tot el text
+Algunes biblioteques en ús no contenen suficient informació per
+permetre deduir el seu tipus. Per tant, el format del fitxer
+.IR /etc/ld.so.conf
+permet especificar el tipus esperat. Això
+.B només
+s'usa en aquelles biblioteques ELF que no puguin ser tractades d'una altra
+forma. El format és "dirname=TIPUS", on TIPUS pot ser libc4,
+libc5, o libc6. (Aquesta sintaxi també funciona en la línia
+d'ordres.) Els espais
+.B no
+estan permesos. Vegeu també l'opció
+.B -p .
+.B ldconfig
+normalment hauria d'executar-se pel super-usuari ja que pot ser
+necessari el permís d'escriptura sobre alguns directoris i fitxers
+el propietari dels quals és root.
+.SH OPCIONES
+.TP
+.B \-v
+Mod verbos.
+Imprimeix el nombre de versió actual, el nom de cada directori a
+mesura que s'examina, i els enllaços que es creen. Té preferència
+sobre la manera silenciosa.
+.TP
+.B \-n
+Processa només els directoris especificats en la línia d'ordres.
+No processa els directoris de confiança
+.RI ( /lib
+y
+.IR /usr/lib )
+ni els especificats en
+.IR /etc/ld.so.conf .
+Implica
+.BR \-N .
+.TP
+.B \-N
+No reconstruir la caché.
+Tret que s'especifiqui també
+.B \-X
+, els vincles sí són actualitzats.
+.TP
+.B \-X
+No actualitzar els vincles.
+Tret que s'especifiqui també
+.B \-N
+, la caché sí és reconstruïda.
+.TP
+.B \-f conf
+Utilitza
+.B conf
+en comptes de
+.IR /etc/ld.so.conf .
+.TP
+.B \-C caché
+Utiliza
+.B caché
+en lloc de
+.IR /etc/ld.so.cache .
+.TP
+.B \-r raíz
+Canvia al directori
+.B arrel
+i ho utilitza com a directori arrel.
+.TP
+.B \-l
+Manera biblioteca. Crea vincles manualment en biblioteques
+individuals. Es pretén que s'usi només per experts.
+.TP
+.B \-p
+Imprimeix les llistes de directoris i biblioteques candidates almcenadas
+en la caché actual.
+
+.SH FITXERS
+.PD 0
+.TP 20
+.B /lib/ld.so
+enllaçador/carregador en temps d'execució
+.TP 20
+.B /etc/ld.so.conf
+Fitxer que conté una llista de directoris, separats per dos
+punts (:), espai, tabulacions, salts de línia o comes, en
+els quals es busquen les biblioteques.
+.TP 20
+.B /etc/ld.so.cache
+Fitxer que conté una llista ordenada de biblioteques oposades en
+els directoris especificats en
+.BR /etc/ld.so.conf .
+.PD

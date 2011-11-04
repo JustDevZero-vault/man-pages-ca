@@ -1,0 +1,41 @@
+.\" Translated into catalan on Fri Nov 4 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\"
+.TH ZDUMP 8
+.SH NOM
+zdump \- visualitzador d'informació de fus horari
+.SH SINOPSIS
+.B zdump
+[
+.B \-v
+] [
+.B \-c
+anydetall ] [ nombrezona ... ]
+.SH DESCRIPCIÓ
+.I Zdump
+mostra l'hora actual en cada
+.I nombrezona
+indicada en la línia d'ordres.
+.PP
+Estan disponibles aquestes opcions:
+.TP
+.B \-v
+Per a cada
+.I nomzona
+de la línia d'ordres,
+mostra l'hora en el valor de temps més baix possible, l'hora un dia després
+del valor de temps més baix possible, les hores tant un segon abans de com
+exactament en cada discontinuïtat de temps detectada, l'hora un dia
+menys del valor de temps més alt possible i l'hora en el valor de temps
+més alt possible.
+Cada línia acaba amb
+.B isdst=1
+si l'hora donada està en l'horari d'estiu (horari d'estalvi d'energia) o
+.B isdst=0
+en cas contrari.
+.TP
+.BI "\-c " anydetall
+Talla la sortida verbosa prop de l'inici de l'any donat.
+.SH "VEGEU TAMBÉ"
+newctime(3), tzfile(5), zic(8)
+.\" @(#)zdump.8	7.3

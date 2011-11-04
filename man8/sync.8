@@ -1,0 +1,87 @@
+.\" Reboot/halt and Linux information extracted from Rick Faith's original
+.\" sync(8) manpage, dating back to the Linux 0.99 days.  The Linux-specific
+.\" information is attributed to Linus Torvalds
+.\" Copyright 1992, 1993 Rickard E. Faith (faith@cs.unc.edu)
+.\" May be distributed under the GNU General Public License
+.\"
+.\" Translated into catalan on Fri Nov 4 2011 by Daniel Ripoll Osma
+.\" <info@danielripoll.es>
+.\·
+.TH SYNC 8 "novembre 1998" "GNU fileutils 4.0"
+.SH NOMENI
+sync \- sincronitza les dades en disc amb els quals hi ha en memòria
+.SH SINOPSYS
+.B "sync [\-\-help] [\-\-version]"
+.SH DESCRIPCIÓ
+.B sync
+escriu qualsevol dada emmagatzemada en memòria en disc. Això pot incloure
+(però no està limitat a) superbloques modificats, i-nodes modificats i
+lectures i escriptures demorades. Aquesta operació ha de ser implementat pel
+nucli. El programa
+.B sync
+no fa gens excepte executar la trucada al sistema
+.BR sync (2).
+.PP
+El nucli manté dades en memòria per evitar fer lectures i escriptures
+de disc (relativament lentes). Això millora el rendiment però, si
+l'ordinador falla, es poden perdre dades o el sistema de fitxers es pot
+corrompre com a resultat de la fallada.
+.B sync
+assegura que qualsevol cosa que hi hagi en memòria sigui escrita en disc.
+.PP
+S'hauria de cridar a
+.B sync
+abans que el processador es detingui de manera inusual (per ex., abans
+de produir un pànic del nucli mentre es depura nou codi del nucli).
+En general, el processador hauria de parar-se usant les ordres
+.BR shutdown (8),
+.BR reboot (8)
+o
+.BR halt (8),
+que intentaran portar al sistema a un estat inactiu abans de cridar a
+.BR sync (2).
+(Existeixen diverses implementacions d'aquestes ordres. Consulti la seva
+documentació. En alguns sistemes, no s'hauria de cridar directament ni
+a .BR reboot (8)
+ni
+a .BR halt (8).)
+.SH "OPCIONS ESTÀNDARDS DE GNU"
+.TP
+.B "\-\-help"
+Mostra un missatge d'ús en la sortida estàndard i acaba amb èxit.
+.TP
+.B "\-\-version"
+Mostra informació de versió en la sortida estàndard i a continuació
+acaba amb èxit.
+.TP
+.B "\-\-"
+Acaba la llista d'opcions.
+.SH AJUSTO
+Les variables LANG, LC_ALL, LC_CTYPE i LC_MESSAGES tenen el seu significat
+habitual.
+.SH "CONFORME A"
+POSIX 1003.2
+.SH OBSERVACIONS
+En Linux,
+.B sync
+només garanteix la planificació per a escriptura dels blocs modificats i
+no salvats: en realitat, pot transcórrer un breu període de temps abans que
+tots els blocs s'hagin escrit finalment.
+Les ordres
+.BR reboot (8)
+i
+.BR halt (8)
+tenen això en compte dormint uns pocs segons després de cridar a
+.BR sync (2).
+.PP
+Aquesta pàgina descriu
+.B sync
+tal com es troba en el paquet file\%utils-4.0.
+Altres versions poden diferir lleugerament.
+Enviï per correu qualsevol correcció o ampliació a aeb@cwi.nl.
+Informe de fallades al programa a fileutils-bugs@gnu.ai.mit.edu.
+.SH "VEGEU TAMBÉ"
+.BR sync (2),
+.BR halt (8),
+.BR reboot (8),
+.BR update (8)
