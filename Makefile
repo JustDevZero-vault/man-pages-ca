@@ -51,11 +51,17 @@ bz2plain:
 	for i in man?; do bunzip2 $$i/*; done
 
 postscript:
-	mkdir manuals; \
-	for i in man?/*; do \
-	file_name=`echo $$i|sed s'=man1/=='|sed s'=.1=='`; \
-		man -M "$$HOME/Proyectos/man-pages-ca/" -t "$$file_name" > manuals/"$$file_name".ps; \
-	done
+	for i in $$HOME/Proyectos/man-pages-ca/man?/*; do \
+    file_name=`echo $$i|sed s'=man[0-9]/=='|sed s'=.[0-9]=='`; \
+    directory_name=`dirname $$i|sed s"=$$HOME/Proyectos/man-pages-ca/=="`; \
+    real_name=`echo $$file_name|sed s"=$$HOME/Proyectos/man-pages-ca/=="`; \
+    if [ ! -d manuals/$$directory_name ] ;then  \
+        mkdir -p manuals/$$directory_name; \
+    fi; \
+    /usr/bin/man -M "$$HOME/Proyectos/man-pages-ca/" -t "$$real_name" > manuals/"$$directory_name/$$real_name".ps; \
+    done
+
+
 
 # Use with
 #  make HTDIR=/some/dir HTOPTS=whatever html
